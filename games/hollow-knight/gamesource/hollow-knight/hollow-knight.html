@@ -98,7 +98,7 @@
         const sizes = await Promise.all(allParts.map(getSize));
         totalBytes = sizes.reduce((a, b) => a + b, 0);
         const [dataUrl, wasmurl] = await Promise.all([
-            getFile('https://www.dl.dropboxusercontent.com/scl/fi/hthvii9imgpk32hiuuqj0/bog.data?rlkey=tdyk4o5ba2rfi4xchdrtpghs0&st=x984a20k'),
+            getFile('https://sems.codeberg.page/gamesource/hollow-knight/Build/bog.data'),
             getFile('Build/bog.wasm'),
           ]);
 
