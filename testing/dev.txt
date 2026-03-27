@@ -1,0 +1,14 @@
+<a href="/settings" class="nav-btn">
+    <i data-lucide="settings"></i>
+    <span class="btn-text">Settings</span>
+</a>
+
+<button class="nav-btn" onclick="openBlank()">
+    <i data-lucide="external-link"></i>
+    <span class="btn-text">Cloaking</span>
+</button>
+
+<a href="/proxies" class="nav-btn">
+    <i data-lucide="globe"></i>
+    <span class="btn-text">Proxies</span>
+</a>
