@@ -1,31 +1,43 @@
+<!-- /games/game.html -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EdCube | Loading...</title>
-    <link rel="icon" href="../icons/logo.ico" type="image/x-icon">
+    <link rel="icon" href="../logo.jpg" type="image/x-icon">
 
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EZJ4RW4BH4"></script>
+    <script>
+      const game_width = "Ry1FWko0Ulc0Qkg0";
+      const game_height = atob(game_width);
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', game_height);
+    </script>
 
     <!-- Header -->
     <header class="site-header">
         <div class="header-content">
             <div class="header-left">
                 <a href="../home.html">
-                    <img src="../icons/logo.ico" alt="EdCube Logo" class="logo-img" title="Back to Home" loading="lazy">
+                    <img src="../logo.jpg" alt="EdCube Logo" class="logo-img" title="Back to Home" loading="lazy">
                 </a>
             </div>
             <nav class="header-right">
-                <button class="nav-icon-link" onclick="openBlank()" title="About:Blank Cloaking">
+                <button class="nav-icon-link" onclick="openBlank()">
                     <i data-lucide="external-link"></i>
                     <span>Cloak</span>
                 </button>
-                <a href="../home.html" class="nav-icon-link" title="Back to Home">
+                <a href="../home.html" class="nav-icon-link">
                     <i data-lucide="home"></i>
                     <span>Home</span>
                 </a>
@@ -50,7 +62,7 @@
                     <button class="nav-icon-link" id="shareBtn" title="Share">
                         <i data-lucide="share-2"></i>
                     </button>
-                    <a href="https://github.com/your-repo/issues" target="_blank" class="nav-icon-link" title="Report Bug">
+                    <a href="https://github.com/NN-Coder/EdCube-STABLE/issues/new" target="_blank" class="nav-icon-link" title="Report Bug">
                         <i data-lucide="flag"></i>
                     </a>
                 </div>

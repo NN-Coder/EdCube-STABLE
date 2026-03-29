@@ -1,5 +1,9 @@
+// /games/script.js
+
 // Lucide icons
 lucide.createIcons();
+
+const ENGINE_VERSION = "5.0.0";
 
 // Open in About:Blank
 function openBlank() {
@@ -23,7 +27,7 @@ function openBlank() {
     win.document.body.appendChild(iframe);
 }
 
-// Dynamic game loading (game.html?id=game-id)
+// Dynamic game loading
 async function loadGameData() {
     const displayTitle = document.getElementById('displayTitle');
     const gameFrame = document.getElementById('gameFrame');
@@ -39,15 +43,14 @@ async function loadGameData() {
     try {
         const response = await fetch('games.json');
         const allGames = await response.json();
-
         const gameData = allGames.find(g => g.id === gameId);
 
         if (gameData) {
             document.title = `${gameData.title} | EdCube`;
             displayTitle.innerText = gameData.title;
             
-            gameFrame.src = `../game_sources/${gameData.id}/index.html`;
-            
+            gameFrame.src = `https://edcube-games.web.app/${gameId}/index.html`;
+
             renderRecommendations(allGames, gameId);
         } else {
             displayTitle.innerText = "Game Not Found";
@@ -59,6 +62,8 @@ async function loadGameData() {
         displayTitle.innerText = "Error Loading Library";
     }
 }
+
+
 
 /**
  * Dynamic recommended games
@@ -76,7 +81,7 @@ function renderRecommendations(allGames, currentId) {
     recGrid.innerHTML = filtered.map(game => `
         <a href="game.html?id=${game.id}" class="game-card">
             <div class="card-inner">
-                <div class="card-thumb" style="background-image: url('../${game.image}');"></div>
+                <div class="card-thumb" style="background-image: url('${game.image}');"></div>
                 <div class="card-overlay">
                     <span class="card-title">${game.title}</span>
                 </div>

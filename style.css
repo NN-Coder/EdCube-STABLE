@@ -1,6 +1,8 @@
+/* /style.css */
+
 :root {
     --main-color: #00ffcc;
-    --accent-color: #ff00ff;
+    --accent-color: #de0c78;
     --bg-dark: #05010a;
     --bar-bg: rgba(10, 5, 20, 0.9);
     --neon-glow: 0 0 15px rgba(0, 255, 204, 0.4);
@@ -25,6 +27,21 @@ body {
     min-height: 100vh;
     font-size: 1.1rem; 
     overflow-x: hidden;
+}
+
+#spaceCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+}
+
+#spaceCanvas.hidden {
+    opacity: 0;
 }
 
 /* Header & Footer */
@@ -80,11 +97,11 @@ body {
     color: var(--main-color);
     text-decoration: none;
     transition: all 0.3s ease;
-    background: none;    /* Removes default button gray */
-    border: none;        /* Removes default button border */
-    padding: 0;          /* Removes default button padding */
-    cursor: pointer;     /* Makes it feel like a link */
-    font-family: 'Orbitron', sans-serif; /* Forces the correct font */
+    background: none; 
+    border: none;    
+    padding: 0;         
+    cursor: pointer;     
+    font-family: 'Orbitron', sans-serif; 
 }
 
 .nav-icon-link i {
@@ -100,7 +117,7 @@ body {
 }
 
 .nav-icon-link:hover {
-    color: #fff;
+    color: var(--accent-color);
     text-shadow: var(--neon-glow);
     transform: translateY(-2px);
 }
@@ -141,49 +158,6 @@ body {
     opacity: 1;
     margin-left: 10px;
 }
-
-/* Header Search Bar (removed due to many bugs, new one will be above the game grid)
-.search-wrapper {
-    display: flex;
-    align-items: center;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--border-glow-heavy);
-    padding: 8px 12px;
-    border-radius: 50px;
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    width: 45px; 
-    overflow: hidden;
-}
-
-.search-input {
-    background: none;
-    border: none;
-    color: white;
-    font-family: inherit; 
-    outline: none;
-    width: 0;
-    opacity: 0;
-    transition: all 0.5s ease;
-}
-
-.search-wrapper [data-lucide="search"] {
-    width: 200px;
-    height: 200px;
-}
-
-.search-wrapper:hover, .search-wrapper:focus-within {
-    width: clamp(150px, 25vw, 250px);
-    background: rgba(255, 255, 255, 0.1);
-    border-color: var(--main-color);
-    box-shadow: var(--neon-glow);
-}
-
-.search-wrapper:hover .search-input, 
-.search-wrapper:focus-within .search-input {
-    width: 100%;
-    opacity: 1;
-    padding-left: 10px;
-}*/
 
 /* Main Content */
 .main-wrapper {
@@ -265,7 +239,7 @@ body {
 /* Game Grid */
 .game-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
     gap: 25px;
     width: 100%;
     max-width: 1200px;
@@ -281,11 +255,11 @@ body {
 .card-inner {
     position: relative;
     width: 100%;
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 1 / 1;
     background: rgba(255, 255, 255, 0.03);
     overflow: hidden;
-    border-radius: 15px;
-    border: 1px solid var(--border-glow);
+    border-radius: 51px;
+    border: 3px solid var(--border-glow);
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
@@ -359,7 +333,7 @@ body {
 .carousel-container {
     position: relative;
     width: 100%;
-    height: 380px; 
+    height: 420px; 
     border-radius: 20px;
     overflow: hidden;
     border: 2px solid var(--border-glow);
@@ -466,7 +440,7 @@ body {
     top: 50%;
     transform: translateY(-50%);
     background: rgba(0, 0, 0, 0.6);
-    border: 1px solid var(--main-color);
+    border: 2px solid var(--main-color);
     color: var(--main-color);
     padding: 10px;
     cursor: pointer;

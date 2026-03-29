@@ -1,3 +1,5 @@
+<!-- /index.html -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,12 +8,14 @@
     <title>EdCube</title>
 
     <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://electricube.codeberg.page">
+    <link rel="canonical" href="https://edcube.codehs.me">
     <meta property="og:title" content="EdCube | Amazing Free Games">
     <meta name="description" content="Your ultimate destination for gaming. Unlimited online free games!">
     <meta property="og:description" content="Your ultimate destination for gaming. Unlimited online free games!">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="electricube.codeberg.page">
+    <meta property="og:url" content="edcube.codehs.me">
+    
+    <link rel="icon" href="../logo.jpg" type="image/x-icon">
     
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -134,7 +138,17 @@
     </style>
 </head>
 <body>
-
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EZJ4RW4BH4"></script>
+    <script>
+      const game_width = "Ry1FWko0Ulc0Qkg0";
+      const game_height = atob(game_width);
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', game_height);
+    </script>
+    
     <canvas id="spaceCanvas"></canvas>
 
     <div class="content-container">

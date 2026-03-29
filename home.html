@@ -1,33 +1,164 @@
+<!-- /home.html -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home | EdCube</title>
-    <link rel="icon" href="icons/logo.ico" type="image/x-icon">
+    <link rel="icon" href="logo.jpg" type="image/x-icon">
 
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css"> 
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EZJ4RW4BH4"></script>
+    <script>
+      const game_width = "Ry1FWko0Ulc0Qkg0";
+      const game_height = atob(game_width);
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', game_height);
+    </script>
+    
+    <canvas id="spaceCanvas"></canvas>
 
+    <script>
+        const canvas = document.getElementById('spaceCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        let stars = [];
+        let isEnabled = true; 
+        
+        let mouse = {
+            x: null,
+            y: null,
+            radius: Math.min(window.innerWidth, window.innerHeight) * 0.15 
+        };
+        
+        window.addEventListener('mousemove', (e) => { mouse.x = e.x; mouse.y = e.y; });
+        window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
+        window.addEventListener('touchmove', (e) => {
+            if(e.touches.length > 0) {
+                mouse.x = e.touches[0].clientX;
+                mouse.y = e.touches[0].clientY;
+            }
+        });
+        window.addEventListener('touchend', () => { mouse.x = null; mouse.y = null; });
+        
+        window.addEventListener('keydown', (e) => {
+            if (e.key.toLowerCase() === 'k') {
+                isEnabled = !isEnabled;
+                
+                if (isEnabled) {
+                    canvas.classList.remove('hidden');
+                    animate();
+                } else {
+                    canvas.classList.add('hidden');
+
+                }
+            }
+        });
+        
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            mouse.radius = Math.min(canvas.width, canvas.height) * 0.15;
+            if (mouse.radius < 100) mouse.radius = 100;
+        }
+        
+        window.addEventListener('resize', resize);
+        resize();
+        
+        class Star {
+            constructor() { this.init(true); }
+        
+            init(isInitial = false) {
+                this.x = Math.random() * canvas.width;
+                this.y = isInitial ? Math.random() * canvas.height : canvas.height + 10;
+                this.size = Math.random() * 1.2 + 0.3;
+                this.baseSpeedY = (Math.random() * 0.15 + 0.05) * -1;
+                this.baseSpeedX = (Math.random() - 0.5) * 0.05;
+                this.speedY = this.baseSpeedY;
+                this.speedX = this.baseSpeedX;
+                this.opacity = Math.random() * 0.8 + 0.2;
+        
+                const hue = Math.random();
+                if (hue < 0.2) this.color = `rgba(180, 220, 255,`;
+                else if (hue < 0.4) this.color = `rgba(255, 180, 255,`;
+                else if (hue < 0.6) this.color = `rgba(180, 255, 220,`;
+                else this.color = `rgba(255, 255, 255,`;
+            }
+        
+            update() {
+                let dx = mouse.x - this.x;
+                let dy = mouse.y - this.y;
+                let distance = Math.sqrt(dx * dx + dy * dy);
+        
+                if (distance < mouse.radius && mouse.x !== null) {
+                    const force = (mouse.radius - distance) / mouse.radius;
+                    this.x -= (dx / distance) * force * 3;
+                    this.y -= (dy / distance) * force * 3;
+                }
+        
+                this.y += this.speedY;
+                this.x += this.speedX;
+        
+                if (this.y < -10) this.init(false);
+                if (this.x < 0) this.x = canvas.width;
+                if (this.x > canvas.width) this.x = 0;
+        
+                if (Math.random() > 0.99) this.opacity = Math.random() * 0.8 + 0.2;
+            }
+        
+            draw() {
+                ctx.fillStyle = `${this.color} ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        
+        function setup() {
+            stars = [];
+            const dynamicCount = window.innerWidth < 600 ? 120 : 200;
+            for (let i = 0; i < dynamicCount; i++) { stars.push(new Star()); }
+        }
+        
+        function animate() {
+            if (!isEnabled) return;
+        
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            stars.forEach(star => {
+                star.update();
+                star.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+        
+        setup();
+        animate();
+    </script>
+    
     <!-- Header -->
     <header class="site-header">
         <div class="header-content">
             <div class="header-left">
-                <img src="icons/logo.ico" alt="EdCube Logo" class="logo-img" loading="lazy">
+                <img src="logo.jpg" alt="EdCube Logo" class="logo-img" loading="lazy">
             </div>
             <nav class="header-right">
-                <a href="#" class="nav-icon-link" title="Proxies">
+                <!-- <a href="#" class="nav-icon-link" title="Proxies">
                     <i data-lucide="globe"></i>
                     <span>Proxies</span>
-                </a>
-                <button class="nav-icon-link" onclick="openBlank()" title="About:Blank Cloaking">
+                </a> -->
+                <button class="nav-icon-link" onclick="openBlank()">
                     <i data-lucide="external-link"></i>
                     <span>Cloak</span>
                 </button>
-                <a href="#" class="nav-icon-link" title="Settings">
+                <a href="#" class="nav-icon-link" >
                     <i data-lucide="settings"></i>
                     <span>Settings</span>
                 </a>
@@ -41,7 +172,9 @@
         <!-- Hero Banner -->
         <section class="hero-banner">
             <h1>Welcome to EdCube!</h1>
-            <p>Experience the next generation of web gaming.</p>
+            <p>EdCube v5.0 Release on Monday, March 30!</p>
+            <p>Be sure to join the <a href="https://discord.gg/WkhHFKq8Z3">Discord</a> server for news and exclusive updates!</p>
+
         </section>
 
         <!-- Featured Games Carousel -->
