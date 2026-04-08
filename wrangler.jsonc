@@ -1,0 +1,40 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "main": ".open-next/worker.js",
+  "name": "edcube",
+  "compatibility_date": "2024-12-30",
+  "compatibility_flags": [
+    // Enable Node.js APIs for Next.js compatibility
+    "nodejs_compat",
+    // Allow fetching public URLs from within the worker
+    "global_fetch_strictly_public"
+  ],
+  "vars": {
+    "NEXT_PUBLIC_SUPABASE_URL": "https://hftvwwtqznujktobbxol.supabase.co",
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "***REMOVED***",
+    "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY": "sb_publishable_OVXY6hNIwueyU7CG0dMlMw_KZgWX1ug"
+  },
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "services": [
+    {
+      "binding": "WORKER_SELF_REFERENCE",
+      // Must match the "name" field above
+      "service": "edcube"
+    }
+  ],
+  "r2_buckets": [
+    // Next.js ISR/SSG incremental cache
+    {
+      "binding": "NEXT_INC_CACHE_R2_BUCKET",
+      "bucket_name": "edcube-cache"
+    },
+    // Game assets bucket (contains game_sources/*)
+    {
+      "binding": "GAME_ASSETS_BUCKET",
+      "bucket_name": "assets"
+    }
+  ]
+}

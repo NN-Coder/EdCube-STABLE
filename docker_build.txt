@@ -1,0 +1,155 @@
+Unable to find image 'node:22-slim' locally
+22-slim: Pulling from library/node
+da539b676105: Pulling fs layer
+6834908f25fc: Pulling fs layer
+7c35fcf84091: Pulling fs layer
+33df803327ef: Pulling fs layer
+6de4ed957c21: Pulling fs layer
+8aacc895de02: Download complete
+6834908f25fc: Download complete
+7c35fcf84091: Download complete
+6de4ed957c21: Download complete
+76e46f8fecfd: Download complete
+da539b676105: Download complete
+6834908f25fc: Pull complete
+da539b676105: Pull complete
+33df803327ef: Download complete
+33df803327ef: Pull complete
+7c35fcf84091: Pull complete
+6de4ed957c21: Pull complete
+Digest: sha256:f3a68cf41a855d227d1b0ab832bed9749469ef38cf4f58182fb8c893bc462383
+Status: Downloaded newer image for node:22-slim
+npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead
+npm warn deprecated glob@9.3.5: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+
+added 923 packages, and audited 924 packages in 10m
+
+255 packages are looking for funding
+  run `npm fund` for details
+
+2 moderate severity vulnerabilities
+
+To address all issues, run:
+  npm audit fix
+
+Run `npm audit` for details.
+npm notice
+npm notice New major version of npm available! 10.9.7 -> 11.12.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.12.1
+npm notice To update run: npm install -g npm@11.12.1
+npm notice
+
+ΓöîΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÉ
+Γöé OpenNext ΓÇö Cloudflare build Γöé
+ΓööΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÿ
+
+App directory: /app
+Next.js version : 16.2.2
+@opennextjs/cloudflare version: 1.18.0
+@opennextjs/aws version: 3.9.16
+
+ΓöîΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÉ
+Γöé OpenNext ΓÇö Building Next.js app Γöé
+ΓööΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÿ
+
+
+> edcube@0.1.0 build
+> next build
+
+Attention: Next.js now collects completely anonymous telemetry regarding usage.
+This information is used to shape Next.js' roadmap and prioritize features.
+You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+https://nextjs.org/telemetry
+
+Using secrets defined in .dev.vars
+Γû▓ Next.js 16.2.2 (Turbopack)
+- Environments: .env.local
+
+ΓÜá The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+  Creating an optimized production build ...
+Γ£ô Compiled successfully in 15.7s
+  Running TypeScript ...
+  Finished TypeScript in 84s ...
+  Collecting page data using 12 workers ...
+  Generating static pages using 12 workers (0/9) ...
+  Generating static pages using 12 workers (2/9) 
+  Generating static pages using 12 workers (4/9) 
+  Generating static pages using 12 workers (6/9) 
+Γ£ô Generating static pages using 12 workers (9/9) in 21.4s
+  Finalizing page optimization ...
+
+Route (app)
+Γöî Γùï /
+Γö£ Γùï /_not-found
+Γö£ ╞Æ /api/r2/[...path]
+Γö£ Γùï /chat
+Γö£ ╞Æ /game/[id]
+Γö£ Γùï /login
+Γö£ Γùï /proxy
+Γö£ Γùï /requests
+Γöö Γùï /signup
+
+
+╞Æ Proxy (Middleware)
+
+Γùï  (Static)   prerendered as static content
+╞Æ  (Dynamic)  server-rendered on demand
+
+
+ΓöîΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÉ
+Γöé OpenNext ΓÇö Generating bundle Γöé
+ΓööΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÿ
+
+(node:115) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Bundling middleware function...
+Bundling static assets...
+Bundling cache assets...
+Building server function: default...
+Applying code patches: 4.191s
+# copyPackageTemplateFiles
+[35mΓÜÖ∩╕Å Bundling the OpenNext server...
+[0m
+[35mWorker saved in `.open-next/worker.js` ≡ƒÜÇ
+[0m
+OpenNext build complete.
+
+ Γ¢à∩╕Å wrangler 4.81.0
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+OpenNext project detected, calling `opennextjs-cloudflare deploy`
+
+ΓöîΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÉ
+Γöé OpenNext ΓÇö Cloudflare deploy Γöé
+ΓööΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÿ
+
+Using secrets defined in .dev.vars
+(node:515) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Populating remote R2 incremental cache...
+ERROR Attempt 1 to write "incremental-cache/dxyP-eUKrCzNFLv5od93E/847d8d45dc581631825d40e04619ef5bae0ac933e2e616248129cca9c4e9617a.cache" failed with a retryable error: Worker returned a 503 Service Unavailable response. Retrying...
+ERROR Attempt 2 to write "incremental-cache/dxyP-eUKrCzNFLv5od93E/847d8d45dc581631825d40e04619ef5bae0ac933e2e616248129cca9c4e9617a.cache" failed with a retryable error: Worker returned a 503 Service Unavailable response. Retrying...
+ERROR Attempt 3 to write "incremental-cache/dxyP-eUKrCzNFLv5od93E/847d8d45dc581631825d40e04619ef5bae0ac933e2e616248129cca9c4e9617a.cache" failed with a retryable error: Worker returned a 503 Service Unavailable response. Retrying...
+ERROR Attempt 4 to write "incremental-cache/dxyP-eUKrCzNFLv5od93E/847d8d45dc581631825d40e04619ef5bae0ac933e2e616248129cca9c4e9617a.cache" failed with a retryable error: Worker returned a 503 Service Unavailable response. Retrying...
+≡ƒ¬╡  Logs were written to "/root/.config/.wrangler/logs/wrangler-2026-04-08_04-56-08_274.log"
+file:///app/node_modules/@opennextjs/cloudflare/dist/cli/commands/populate-cache.js:185
+            throw new Error(`Failed to populate remote R2 bucket "${bucketName}" for binding "${R2_CACHE_BINDING_NAME}": ${e instanceof Error ? e.message : String(e)}`);
+                  ^
+
+Error: Failed to populate remote R2 bucket "edcube-cache" for binding "NEXT_INC_CACHE_R2_BUCKET": Failed to write "incremental-cache/dxyP-eUKrCzNFLv5od93E/847d8d45dc581631825d40e04619ef5bae0ac933e2e616248129cca9c4e9617a.cache" to R2 after 5 attempts
+    at populateR2IncrementalCache (file:///app/node_modules/@opennextjs/cloudflare/dist/cli/commands/populate-cache.js:185:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async populateCache (file:///app/node_modules/@opennextjs/cloudflare/dist/cli/commands/populate-cache.js:50:17)
+    at async deployCommand (file:///app/node_modules/@opennextjs/cloudflare/dist/cli/commands/deploy.js:19:5)
+
+Node.js v22.22.2
+[0G 11%|ΓûêΓûêΓûêΓûêΓûê                                        | 1/9 [00:00:<00:00:, 0.00it/s]
+Cloudflare collects anonymous telemetry about your usage of Wrangler. Learn more at https://github.com/cloudflare/workers-sdk/tree/main/packages/wrangler/telemetry.md
+
+Γ£ÿ [ERROR] 
+
+
+[32mIf you think this is a bug then please create an issue at https://github.com/cloudflare/workers-sdk/issues/new/choose[0m
+? Would you like to report this error to Cloudflare? Wrangler's output and the error details will be shared with the Wrangler team to help us diagnose and fix the issue.
+≡ƒñû Using fallback value in non-interactive context: no
+≡ƒ¬╡  Logs were written to "/root/.config/.wrangler/logs/wrangler-2026-04-08_04-55-07_964.log"
