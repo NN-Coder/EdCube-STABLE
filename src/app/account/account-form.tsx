@@ -62,6 +62,7 @@ export function AccountForm({ user, profile }: AccountFormProps) {
   const [usernameStatus, setUsernameStatus] = useState<{ message: string; type: "success" | "error" } | null>(null);
 
   // Email state
+  const hasPassword = user?.app_metadata?.providers?.includes("email") ?? false;
   const [email, setEmail] = useState(profile?.email || "");
   const [emailPassword, setEmailPassword] = useState("");
   const [savingEmail, setSavingEmail] = useState(false);
@@ -167,22 +168,24 @@ export function AccountForm({ user, profile }: AccountFormProps) {
     setEmailStatus(null);
 
     // Verify current password first
-    if (emailPassword) {
-      const currentEmail = profile?.email || `${profile?.username}@edcube.net`;
-      const { error: signInError } = await supabase.auth.signInWithPassword({
-        email: currentEmail,
-        password: emailPassword,
-      });
+    if (hasPassword) {
+      if (emailPassword) {
+        const currentEmail = profile?.email || `${profile?.username}@edcube.net`;
+        const { error: signInError } = await supabase.auth.signInWithPassword({
+          email: currentEmail,
+          password: emailPassword,
+        });
 
-      if (signInError) {
-        setEmailStatus({ message: "Current password is incorrect.", type: "error" });
+        if (signInError) {
+          setEmailStatus({ message: "Current password is incorrect.", type: "error" });
+          setSavingEmail(false);
+          return;
+        }
+      } else {
+        setEmailStatus({ message: "Please enter your current password.", type: "error" });
         setSavingEmail(false);
         return;
       }
-    } else {
-      setEmailStatus({ message: "Please enter your current password.", type: "error" });
-      setSavingEmail(false);
-      return;
     }
 
     // Update email in Supabase Auth (triggers verification email)
@@ -223,8 +226,12 @@ export function AccountForm({ user, profile }: AccountFormProps) {
 
   // ── Password Update ────────────────────────────────────
   const handlePasswordUpdate = async () => {
-    if (!currentPassword || !newPassword || !confirmPassword) {
-      setPasswordStatus({ message: "All password fields are required.", type: "error" });
+    if (hasPassword && !currentPassword) {
+      setPasswordStatus({ message: "Current password is required.", type: "error" });
+      return;
+    }
+    if (!newPassword || !confirmPassword) {
+      setPasswordStatus({ message: "New password fields are required.", type: "error" });
       return;
     }
     if (newPassword !== confirmPassword) {
@@ -240,16 +247,18 @@ export function AccountForm({ user, profile }: AccountFormProps) {
     setPasswordStatus(null);
 
     // Verify current password
-    const currentEmail = profile?.email || `${profile?.username}@edcube.net`;
-    const { error: signInError } = await supabase.auth.signInWithPassword({
-      email: currentEmail,
-      password: currentPassword,
-    });
+    if (hasPassword) {
+      const currentEmail = profile?.email || `${profile?.username}@edcube.net`;
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email: currentEmail,
+        password: currentPassword,
+      });
 
-    if (signInError) {
-      setPasswordStatus({ message: "Current password is incorrect.", type: "error" });
-      setSavingPassword(false);
-      return;
+      if (signInError) {
+        setPasswordStatus({ message: "Current password is incorrect.", type: "error" });
+        setSavingPassword(false);
+        return;
+      }
     }
 
     // Update password
@@ -385,13 +394,15 @@ export function AccountForm({ user, profile }: AccountFormProps) {
             className="w-full h-11 rounded-lg border border-input bg-background/50 px-4 text-sm text-foreground transition-all duration-300 focus:outline-none focus:border-primary"
             placeholder="you@example.com"
           />
-          <input
-            type="password"
-            value={emailPassword}
-            onChange={(e) => setEmailPassword(e.target.value)}
-            className="w-full h-11 rounded-lg border border-input bg-background/50 px-4 text-sm text-foreground transition-all duration-300 focus:outline-none focus:border-primary"
-            placeholder="Current password (required)"
-          />
+          {hasPassword && (
+            <input
+              type="password"
+              value={emailPassword}
+              onChange={(e) => setEmailPassword(e.target.value)}
+              className="w-full h-11 rounded-lg border border-input bg-background/50 px-4 text-sm text-foreground transition-all duration-300 focus:outline-none focus:border-primary"
+              placeholder="Current password (required)"
+            />
+          )}
           <button
             onClick={handleEmailUpdate}
             disabled={savingEmail}
@@ -434,13 +445,15 @@ export function AccountForm({ user, profile }: AccountFormProps) {
       {/* ── Password ────────────────────────────────────────── */}
       <SectionCard title="Change Password" icon={KeyRound}>
         <div className="space-y-3">
-          <input
-            type="password"
-            value={currentPassword}
-            onChange={(e) => setCurrentPassword(e.target.value)}
-            className="w-full h-11 rounded-lg border border-input bg-background/50 px-4 text-sm text-foreground transition-all duration-300 focus:outline-none focus:border-primary"
-            placeholder="Current password"
-          />
+          {hasPassword && (
+            <input
+              type="password"
+              value={currentPassword}
+              onChange={(e) => setCurrentPassword(e.target.value)}
+              className="w-full h-11 rounded-lg border border-input bg-background/50 px-4 text-sm text-foreground transition-all duration-300 focus:outline-none focus:border-primary"
+              placeholder="Current password"
+            />
+          )}
           <input
             type="password"
             value={newPassword}

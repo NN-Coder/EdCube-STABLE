@@ -25,12 +25,12 @@ export async function login(formData: FormData) {
       .eq("username", identifier)
       .single();
 
-    if (!profile) {
+    if (!profile || !profile.email) {
       return { error: "Invalid username or password." };
     }
 
-    // If they have a real email stored, use it. Otherwise use the placeholder.
-    authEmail = profile.email || `${identifier}@edcube.net`;
+    // Use the real email stored in the profile
+    authEmail = profile.email;
   }
 
   const { error } = await supabase.auth.signInWithPassword({

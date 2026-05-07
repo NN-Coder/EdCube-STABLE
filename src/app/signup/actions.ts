@@ -8,10 +8,10 @@ export async function signup(formData: FormData) {
 
   const username = formData.get("username") as string;
   const password = formData.get("password") as string;
-  const email = (formData.get("email") as string)?.trim() || null;
+  const email = (formData.get("email") as string)?.trim();
 
-  if (!username || !password) {
-    return { error: "Username and password are required." };
+  if (!username || !password || !email) {
+    return { error: "Username, email, and password are required." };
   }
 
   if (username.length < 3 || username.length > 24) {
@@ -37,22 +37,14 @@ export async function signup(formData: FormData) {
     return { error: "Username is already taken." };
   }
 
-  // Supabase Auth requires an email. If user didn't provide one,
-  // generate a placeholder so they can still sign up with just username+password.
-  const authEmail = email || `${username}@edcube.net`;
-
-  const { error } = await supabase.auth.signUp({
-    email: authEmail,
+  const { data, error } = await supabase.auth.signUp({
+    email,
     password,
     options: {
       data: {
         username,
       },
-      // If using a real email, Supabase will send a confirmation email.
-      // If using placeholder, no email is sent (it's not a real address).
-      emailRedirectTo: email
-        ? `${process.env.NEXT_PUBLIC_SITE_URL || ""}/auth/confirm`
-        : undefined,
+      emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || ""}/auth/confirm`,
     },
   });
 
@@ -64,18 +56,12 @@ export async function signup(formData: FormData) {
     return { error: error.message };
   }
 
-  // If they used a real email, Supabase may require confirmation
-  // depending on dashboard settings. For placeholder emails, the
-  // user is logged in immediately.
-  if (email) {
-    // Store the real email in the profile
-    const { data: { user } } = await supabase.auth.getUser();
-    if (user) {
-      await supabase
-        .from("profiles")
-        .update({ email })
-        .eq("id", user.id);
-    }
+  // Store the email in the profile
+  if (data?.user) {
+    await supabase
+      .from("profiles")
+      .update({ email })
+      .eq("id", data.user.id);
   }
 
   redirect("/home");
