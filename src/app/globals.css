@@ -45,6 +45,10 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+  --color-neon-glow: rgba(0, 255, 204, 0.4);
+  --color-accent-glow: rgba(255, 0, 255, 0.4);
+  --color-border-glow: rgba(0, 255, 204, 0.15);
+  --color-border-glow-heavy: rgba(0, 255, 204, 0.3);
 }
 
 :root, .dark {
@@ -90,9 +94,161 @@
     @apply bg-background text-foreground;
   }
   html {
-    @apply font-sans;
+    @apply font-sans scroll-smooth;
   }
   button {
     @apply cursor-pointer;
   }
+}
+
+/* ─── Legacy Animations ─── */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes subtleGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes neonPulse {
+  0%, 100% { filter: drop-shadow(0 0 8px rgba(0, 255, 204, 0.4)); }
+  50% { filter: drop-shadow(0 0 20px rgba(0, 255, 204, 0.8)); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 1.5s ease-out forwards;
+  opacity: 0;
+}
+
+.animate-fade-in-delay-1 {
+  animation: fadeIn 1.5s ease-out 0.5s forwards;
+  opacity: 0;
+}
+
+.animate-fade-in-delay-2 {
+  animation: fadeIn 1.5s ease-out 1s forwards;
+  opacity: 0;
+}
+
+.animate-fade-in-delay-3 {
+  animation: fadeIn 1.5s ease-out 1.5s forwards;
+  opacity: 0;
+}
+
+.animate-gradient-text {
+  background-size: 200% auto;
+  animation: subtleGradient 8s ease-in-out infinite;
+}
+
+.animate-neon-pulse {
+  animation: neonPulse 3s ease-in-out infinite;
+}
+
+/* ─── Carousel ─── */
+
+.carousel-slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transform: scale(1.05);
+  transition: opacity 1.2s ease-in-out, transform 1.2s ease-in-out;
+}
+
+.carousel-slide.active {
+  opacity: 1;
+  transform: scale(1);
+  z-index: 1;
+}
+
+/* ─── Game Card Hover Effects ─── */
+
+.game-card-thumb {
+  transition: transform 0.5s ease, filter 0.5s ease;
+}
+
+.game-card:hover .game-card-thumb {
+  filter: blur(4px);
+  transform: scale(1.1);
+}
+
+.game-card-overlay {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.4s ease;
+}
+
+.game-card:hover .game-card-overlay {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── Slide Info Expand ─── */
+
+.slide-expandable {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: all 0.5s ease;
+}
+
+.slide-info-box {
+  background: rgba(10, 5, 20, 0);
+  border: 1px solid transparent;
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.carousel-slide:hover .slide-info-box,
+.carousel-slide.active:hover .slide-info-box {
+  background: rgba(10, 5, 20, 0.9);
+  border-color: #00ffcc;
+  box-shadow: 0 0 15px rgba(0, 255, 204, 0.4);
+  transform: translateY(-20px);
+}
+
+.carousel-slide:hover .slide-expandable,
+.carousel-slide.active:hover .slide-expandable {
+  max-height: 200px;
+  opacity: 1;
+  padding-top: 5px;
+  padding-bottom: 10px;
+}
+
+/* ─── Glassmorphic Bar ─── */
+
+.glass-bar {
+  background: rgba(10, 5, 20, 0.9);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+}
+
+/* ─── Neon Glow Helpers ─── */
+
+.neon-glow {
+  text-shadow: 0 0 15px rgba(0, 255, 204, 0.4);
+}
+
+.neon-border-glow {
+  box-shadow: 0 0 25px rgba(0, 255, 204, 0.2);
+}
+
+.neon-border-glow-strong {
+  box-shadow: 0 0 30px rgba(0, 255, 204, 0.3);
+}
+
+/* ─── Search Input ─── */
+
+.search-input::placeholder {
+  color: rgba(0, 255, 204, 0.4);
 }

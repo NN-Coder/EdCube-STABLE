@@ -1,6 +1,7 @@
-"use client"
-import * as React from "react"
-import { ThumbsUp, ThumbsDown, Share2, Bug, Maximize, Minimize } from "lucide-react"
+"use client";
+
+import * as React from "react";
+import { Maximize, Minimize, Share2, Flag } from "lucide-react";
 
 interface GameLoaderProps {
   gameName: string;
@@ -11,62 +12,99 @@ export function GameLoader({ gameName, gameUrl }: GameLoaderProps) {
   const [isFullscreen, setIsFullscreen] = React.useState(false);
   const iframeRef = React.useRef<HTMLIFrameElement>(null);
 
-  const toggleFullscreen = () => {
+  const toggleFullscreen = React.useCallback(() => {
     if (!document.fullscreenElement) {
-      if (iframeRef.current?.requestFullscreen) {
-        iframeRef.current.requestFullscreen();
-      }
+      iframeRef.current?.requestFullscreen().catch((err) => {
+        console.error(`Fullscreen Error: ${err.message}`);
+      });
     } else {
-      if (document.exitFullscreen) {
-        document.exitFullscreen();
-      }
+      document.exitFullscreen();
     }
-  };
+  }, []);
 
   React.useEffect(() => {
     const onFullscreenChange = () => {
       setIsFullscreen(!!document.fullscreenElement);
     };
 
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key.toLowerCase() === "f") toggleFullscreen();
+    };
+
     document.addEventListener("fullscreenchange", onFullscreenChange);
-    return () => document.removeEventListener("fullscreenchange", onFullscreenChange);
-  }, []);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("fullscreenchange", onFullscreenChange);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [toggleFullscreen]);
+
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: document.title,
+          url: window.location.href,
+        });
+      } catch {
+        // Share cancelled
+      }
+    } else {
+      await navigator.clipboard.writeText(window.location.href);
+      alert("Link copied to clipboard!");
+    }
+  };
 
   return (
-    <div className="flex flex-col w-full max-w-5xl mx-auto border border-border/50 rounded-xl overflow-hidden shadow-2xl bg-black/50">
-      <div className="relative w-full aspect-video bg-black/80 flex items-center justify-center">
+    <div className="w-full max-w-[1200px] mx-auto">
+      {/* Game Title */}
+      <h1
+        className="text-center font-heading font-bold uppercase tracking-[4px] neon-glow mb-8"
+        style={{ fontSize: "clamp(2rem, 6vw, 3.5rem)" }}
+      >
+        {gameName}
+      </h1>
+
+      {/* Game Frame Container */}
+      <div className="w-full rounded-2xl overflow-hidden bg-black border-2 border-primary/20 neon-border-glow transition-shadow duration-500 focus-within:shadow-[0_0_40px_rgba(0,255,204,0.4)]">
         <iframe
           ref={iframeRef}
           src={gameUrl}
-          className="w-full h-full border-none"
+          className="w-full border-none block"
+          style={{ aspectRatio: "16 / 9" }}
           title={gameName}
           allow="fullscreen; autoplay; encrypted-media; gyroscope; picture-in-picture"
         />
-      </div>
-      
-      {/* Options Bar */}
-      <div className="flex flex-wrap items-center justify-between p-4 bg-card border-t border-border gap-4">
-        <h1 className="text-xl font-bold text-foreground">{gameName}</h1>
-        <div className="flex flex-wrap items-center gap-2">
-          <button className="flex items-center gap-2 px-3 py-2 text-sm font-semibold rounded-md border border-border hover:bg-accent hover:text-accent-foreground text-muted-foreground transition-colors">
-            <ThumbsUp className="w-4 h-4" /> <span className="hidden sm:inline">Like</span>
-          </button>
-          <button className="flex items-center gap-2 px-3 py-2 text-sm font-semibold rounded-md border border-border hover:bg-accent hover:text-accent-foreground text-muted-foreground transition-colors">
-            <ThumbsDown className="w-4 h-4" /> <span className="hidden sm:inline">Dislike</span>
-          </button>
-          <button className="flex items-center gap-2 px-3 py-2 text-sm font-semibold rounded-md border border-border hover:bg-accent hover:text-accent-foreground text-muted-foreground transition-colors">
-            <Share2 className="w-4 h-4" /> <span className="hidden sm:inline">Share</span>
-          </button>
-          <button className="flex items-center gap-2 px-3 py-2 text-sm font-semibold rounded-md border border-border hover:bg-destructive hover:text-destructive-foreground text-muted-foreground transition-colors">
-            <Bug className="w-4 h-4" /> <span className="hidden sm:inline">Report Bug</span>
-          </button>
-          <button 
-            className="flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-md bg-primary text-primary-foreground hover:bg-primary/90 transition-colors ml-auto sm:ml-2"
+
+        {/* Options Bar */}
+        <div className="bg-[rgba(15,15,25,1)] px-6 py-3 flex justify-end gap-6 border-t-2 border-primary/20">
+          <button
             onClick={toggleFullscreen}
+            title="Fullscreen (F)"
+            className="flex flex-col items-center gap-1 text-primary bg-transparent border-none p-0 font-heading transition-all duration-300 hover:text-accent hover:-translate-y-0.5"
           >
-            {isFullscreen ? <Minimize className="w-4 h-4" /> : <Maximize className="w-4 h-4" />}
-            <span className="hidden sm:inline">{isFullscreen ? "Exit Fullscreen" : "Fullscreen"}</span>
+            {isFullscreen ? (
+              <Minimize className="w-5 h-5" />
+            ) : (
+              <Maximize className="w-5 h-5" />
+            )}
           </button>
+          <button
+            onClick={handleShare}
+            title="Share"
+            className="flex flex-col items-center gap-1 text-primary bg-transparent border-none p-0 font-heading transition-all duration-300 hover:text-accent hover:-translate-y-0.5"
+          >
+            <Share2 className="w-5 h-5" />
+          </button>
+          <a
+            href="https://github.com/NN-Coder/EdCube-STABLE/issues/new"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Report Bug"
+            className="flex flex-col items-center gap-1 text-primary transition-all duration-300 hover:text-accent hover:-translate-y-0.5"
+          >
+            <Flag className="w-5 h-5" />
+          </a>
         </div>
       </div>
     </div>

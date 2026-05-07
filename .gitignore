@@ -39,8 +39,27 @@ yarn-error.log*
 # cloudflare / opennext
 .open-next
 .dev.vars
+.wrangler/
 worker-configuration.d.ts
 
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# build / deploy output logs
+build_output.txt
+deploy_output.txt
+docker_build.txt
+eslint_output.txt
+tail_output.txt
+wrangler_deploy_only.txt
+
+# docs (contains credentials and local-only reference)
+docs/
+
+# IDE / Editor
+.vscode/
+.idea/
+
+# Gemini agent state
+.gemini/

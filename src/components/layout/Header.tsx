@@ -1,51 +1,76 @@
 "use client";
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { Gamepad2, Inbox, LogIn } from 'lucide-react';
+import Link from "next/link";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
+import { Home, Globe, MessageCircle, ExternalLink } from "lucide-react";
+import { openBlank } from "@/lib/cloak";
+import { AuthButton } from "./AuthButton";
 
 export function Header() {
   const pathname = usePathname();
 
-  const navItems = [
-    { name: 'Home', href: '/', icon: Gamepad2 },
-    { name: 'Requests', href: '/requests', icon: Inbox },
-    { name: 'Login', href: '/login', icon: LogIn },
+  // Don't render header on the landing/splash page
+  if (pathname === "/") return null;
+
+  const navLinks = [
+    { name: "Home", href: "/home", icon: Home },
+    { name: "Proxy", href: "/proxy", icon: Globe },
+    { name: "Chat", href: "/chat", icon: MessageCircle },
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border bg-background">
-      <div className="container flex h-16 max-w-screen-2xl items-center px-4 md:px-8 mx-auto">
-        <Link href="/" className="mr-8 flex items-center space-x-2 group">
-          <div className="relative flex items-center justify-center w-8 h-8 rounded-md bg-primary text-primary-foreground transition-colors">
-            <span className="font-bold text-lg leading-none">E</span>
-          </div>
-          <span className="font-heading font-bold text-xl tracking-wider text-foreground">
-            EdCube
-          </span>
+    <header className="sticky top-0 z-50 w-full border-b-2 border-border glass-bar">
+      <div className="w-[90%] max-w-[1400px] mx-auto flex items-center justify-between py-3 flex-wrap gap-3">
+        {/* Logo */}
+        <Link href="/home" className="flex items-center shrink-0">
+          <Image
+            src="/logo.jpg"
+            alt="EdCube Logo"
+            width={50}
+            height={50}
+            className="rounded-lg transition-transform duration-300 hover:-translate-y-0.5"
+            priority
+          />
         </Link>
-        <div className="flex flex-1 items-center justify-end">
-          <nav className="flex items-center space-x-2 md:space-x-6 text-sm font-medium">
-            {navItems.map((item) => {
-              const isActive = pathname === item.href;
-              const Icon = item.icon;
 
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={`relative px-3 py-2 flex items-center gap-2 transition-colors hover:text-foreground group ${isActive ? 'text-foreground font-semibold' : 'text-muted-foreground'}`}
-                >
-                  <Icon className="w-4 h-4 transition-colors" />
-                  <span className="hidden sm:inline-block">{item.name}</span>
-                  {isActive && (
-                    <div className="absolute left-0 -bottom-[1px] w-full h-[2px] bg-primary" />
-                  )}
-                </Link>
-              );
-            })}
-          </nav>
-        </div>
+        {/* Navigation */}
+        <nav className="flex items-center gap-[clamp(10px,2vw,20px)]">
+          {navLinks.map((item) => {
+            const Icon = item.icon;
+            const isActive = pathname === item.href;
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`flex flex-col items-center gap-1 transition-all duration-300 hover:-translate-y-0.5 group ${
+                  isActive
+                    ? "text-accent"
+                    : "text-primary hover:text-accent hover:drop-shadow-[0_0_15px_rgba(0,255,204,0.4)]"
+                }`}
+              >
+                <Icon className="w-5 h-5" />
+                <span className="text-[0.75rem] font-medium uppercase tracking-wider font-heading">
+                  {item.name}
+                </span>
+              </Link>
+            );
+          })}
+
+          {/* Cloak button */}
+          <button
+            onClick={openBlank}
+            className="flex flex-col items-center gap-1 text-primary transition-all duration-300 hover:text-accent hover:drop-shadow-[0_0_15px_rgba(0,255,204,0.4)] hover:-translate-y-0.5 bg-transparent border-none p-0 font-heading"
+          >
+            <ExternalLink className="w-5 h-5" />
+            <span className="text-[0.75rem] font-medium uppercase tracking-wider">
+              Cloak
+            </span>
+          </button>
+
+          {/* Profile / Auth */}
+          <AuthButton />
+        </nav>
       </div>
     </header>
   );
