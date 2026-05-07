@@ -9,5 +9,4 @@ Supabase Credentials:
     Supabase anon key: ***REMOVED***
 
 
-I also do not yet have any R2 related stuff set up yet, but placeholders can be used instead for now.
 
