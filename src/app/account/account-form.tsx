@@ -12,7 +12,6 @@ interface Profile {
   avatar_url: string | null;
   email: string | null;
   phone: string | null;
-  has_2fa: boolean;
   updated_at: string | null;
 }
 
@@ -79,10 +78,6 @@ export function AccountForm({ user, profile }: AccountFormProps) {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [savingPassword, setSavingPassword] = useState(false);
   const [passwordStatus, setPasswordStatus] = useState<{ message: string; type: "success" | "error" } | null>(null);
-
-  // 2FA state
-  const [has2fa, setHas2fa] = useState(profile?.has_2fa || false);
-  const [twoFaStatus, setTwoFaStatus] = useState<{ message: string; type: "success" | "error" } | null>(null);
 
   // Password reset state
   const [resetStatus, setResetStatus] = useState<{ message: string; type: "success" | "error" } | null>(null);
@@ -173,7 +168,7 @@ export function AccountForm({ user, profile }: AccountFormProps) {
 
     // Verify current password first
     if (emailPassword) {
-      const currentEmail = profile?.email || `${profile?.username}@edcube.local`;
+      const currentEmail = profile?.email || `${profile?.username}@edcube.net`;
       const { error: signInError } = await supabase.auth.signInWithPassword({
         email: currentEmail,
         password: emailPassword,
@@ -245,7 +240,7 @@ export function AccountForm({ user, profile }: AccountFormProps) {
     setPasswordStatus(null);
 
     // Verify current password
-    const currentEmail = profile?.email || `${profile?.username}@edcube.local`;
+    const currentEmail = profile?.email || `${profile?.username}@edcube.net`;
     const { error: signInError } = await supabase.auth.signInWithPassword({
       email: currentEmail,
       password: currentPassword,
@@ -271,35 +266,6 @@ export function AccountForm({ user, profile }: AccountFormProps) {
       setConfirmPassword("");
     }
     setSavingPassword(false);
-  };
-
-  // ── 2FA Toggle ─────────────────────────────────────────
-  const handle2faToggle = async () => {
-    setTwoFaStatus(null);
-
-    if (!profile?.email && !profile?.phone) {
-      setTwoFaStatus({ message: "You need a verified email or phone number to enable 2FA.", type: "error" });
-      return;
-    }
-
-    const newState = !has2fa;
-
-    const { error } = await supabase
-      .from("profiles")
-      .update({ has_2fa: newState, updated_at: new Date().toISOString() })
-      .eq("id", user.id);
-
-    if (error) {
-      setTwoFaStatus({ message: "Failed to update 2FA settings.", type: "error" });
-    } else {
-      setHas2fa(newState);
-      setTwoFaStatus({
-        message: newState
-          ? "2FA enabled. OTP codes will be sent to your email or phone on login."
-          : "2FA disabled.",
-        type: "success",
-      });
-    }
   };
 
   // ── Password Reset ─────────────────────────────────────
@@ -409,7 +375,7 @@ export function AccountForm({ user, profile }: AccountFormProps) {
             Current: <span className="text-primary">{profile.email}</span>
           </p>
         ) : (
-          <p className="text-sm text-muted-foreground mb-4">No email linked. Add one to enable password reset and 2FA via email.</p>
+          <p className="text-sm text-muted-foreground mb-4">No email linked. Add one to enable password reset.</p>
         )}
         <div className="space-y-3">
           <input
@@ -444,7 +410,7 @@ export function AccountForm({ user, profile }: AccountFormProps) {
             Current: <span className="text-primary">{profile.phone}</span>
           </p>
         ) : (
-          <p className="text-sm text-muted-foreground mb-4">No phone linked. Add one to enable 2FA via SMS.</p>
+          <p className="text-sm text-muted-foreground mb-4">No phone linked.</p>
         )}
         <div className="flex gap-3">
           <input
@@ -498,36 +464,6 @@ export function AccountForm({ user, profile }: AccountFormProps) {
           </button>
         </div>
         {passwordStatus && <StatusMessage {...passwordStatus} />}
-      </SectionCard>
-
-      {/* ── Two-Factor Authentication ───────────────────────── */}
-      <SectionCard title="Two-Factor Authentication" icon={Shield}>
-        <p className="text-sm text-muted-foreground mb-4">
-          When enabled, a one-time code will be sent to your linked email or phone on each login.
-        </p>
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-sm font-medium text-foreground">
-              {has2fa ? "2FA is enabled" : "2FA is disabled"}
-            </p>
-            {has2fa && (
-              <p className="text-xs text-muted-foreground mt-1">
-                OTP sent to: {profile?.email ? "Email" : ""}{profile?.email && profile?.phone ? " & " : ""}{profile?.phone ? "Phone" : ""}
-              </p>
-            )}
-          </div>
-          <button
-            onClick={handle2faToggle}
-            className={`px-5 h-11 rounded-lg text-sm font-medium transition-all ${
-              has2fa
-                ? "border border-destructive text-destructive hover:bg-destructive/10"
-                : "bg-primary text-primary-foreground hover:bg-primary/90"
-            }`}
-          >
-            {has2fa ? "Disable 2FA" : "Enable 2FA"}
-          </button>
-        </div>
-        {twoFaStatus && <StatusMessage {...twoFaStatus} />}
       </SectionCard>
 
       {/* ── Password Reset ──────────────────────────────────── */}

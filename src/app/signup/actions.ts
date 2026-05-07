@@ -39,7 +39,7 @@ export async function signup(formData: FormData) {
 
   // Supabase Auth requires an email. If user didn't provide one,
   // generate a placeholder so they can still sign up with just username+password.
-  const authEmail = email || `${username}@edcube.local`;
+  const authEmail = email || `${username}@edcube.net`;
 
   const { error } = await supabase.auth.signUp({
     email: authEmail,

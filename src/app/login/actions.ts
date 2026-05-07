@@ -30,7 +30,7 @@ export async function login(formData: FormData) {
     }
 
     // If they have a real email stored, use it. Otherwise use the placeholder.
-    authEmail = profile.email || `${identifier}@edcube.local`;
+    authEmail = profile.email || `${identifier}@edcube.net`;
   }
 
   const { error } = await supabase.auth.signInWithPassword({
