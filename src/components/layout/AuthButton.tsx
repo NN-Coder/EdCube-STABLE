@@ -11,32 +11,38 @@ import type { User as SupabaseUser } from "@supabase/supabase-js";
 export function AuthButton() {
   const [user, setUser] = useState<SupabaseUser | null>(null);
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+  const [username, setUsername] = useState<string | null>(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const supabase = createClient();
 
   useEffect(() => {
     // Get initial session
-    supabase.auth.getUser().then(({ data: { user } }) => {
+    supabase.auth.getUser().then(async ({ data: { user } }) => {
       setUser(user);
       if (user) {
-        setAvatarUrl(getAvatarUrl(user.id));
+        const { data } = await supabase.from('profiles').select('avatar_url, username').eq('id', user.id).single();
+        setUsername(data?.username || user.user_metadata?.full_name || null);
+        setAvatarUrl(data?.avatar_url || user.user_metadata?.avatar_url || getAvatarUrl(user.id));
       }
     });
 
     // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
       const currentUser = session?.user ?? null;
       setUser(currentUser);
       if (currentUser) {
-        setAvatarUrl(getAvatarUrl(currentUser.id));
+        const { data } = await supabase.from('profiles').select('avatar_url, username').eq('id', currentUser.id).single();
+        setUsername(data?.username || currentUser.user_metadata?.full_name || null);
+        setAvatarUrl(data?.avatar_url || currentUser.user_metadata?.avatar_url || getAvatarUrl(currentUser.id));
       } else {
         setAvatarUrl(null);
+        setUsername(null);
       }
     });
 
     return () => subscription.unsubscribe();
-  }, []);
+  }, [supabase]);
 
   // Close dropdown on outside click
   useEffect(() => {
@@ -80,25 +86,26 @@ export function AuthButton() {
         onClick={() => setDropdownOpen((prev) => !prev)}
         className="flex flex-col items-center gap-1 text-primary transition-all duration-300 hover:text-accent hover:drop-shadow-[0_0_15px_rgba(0,255,204,0.4)] hover:-translate-y-0.5 bg-transparent border-none p-0 font-heading"
       >
-        {avatarUrl ? (
-          <div className="w-5 h-5 rounded-full overflow-hidden border border-primary/50">
+        <div className="w-5 h-5 rounded-full overflow-hidden border border-primary/50 bg-muted flex items-center justify-center">
+          {avatarUrl ? (
             <Image
               src={avatarUrl}
               alt="Profile"
               width={20}
               height={20}
               className="object-cover w-full h-full"
-              onError={(e) => {
+              onError={() => {
                 // Fallback to icon if avatar doesn't exist
-                (e.target as HTMLImageElement).style.display = "none";
-                (e.target as HTMLImageElement).parentElement!.innerHTML = "";
+                setAvatarUrl(null);
               }}
               unoptimized
             />
-          </div>
-        ) : (
-          <UserCircle className="w-5 h-5" />
-        )}
+          ) : (
+            <span className="text-[10px] font-heading font-bold text-primary leading-none">
+              {(username || "?")[0]?.toUpperCase()}
+            </span>
+          )}
+        </div>
         <span className="text-[0.75rem] font-medium uppercase tracking-wider">
           Profile
         </span>
