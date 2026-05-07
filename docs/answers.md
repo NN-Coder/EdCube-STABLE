@@ -9,5 +9,4 @@ Supabase Credentials:
     Supabase anon key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhmdHZ3d3Rxem51amt0b2JieG9sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ5MzM5ODAsImV4cCI6MjA5MDUwOTk4MH0.kArdnCQGX3yKJk3f1x0xD1TsvIR8h-fMViqn9dpd5u4
 
 
-I also do not yet have any R2 related stuff set up yet, but placeholders can be used instead for now.
 
