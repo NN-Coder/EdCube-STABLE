@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 import { createClient } from "@/utils/supabase/client";
-import { Camera, Check, AlertCircle, KeyRound, Mail, Phone, Shield, LogOut } from "lucide-react";
+import { Camera, Check, AlertCircle, KeyRound, Mail, LogOut } from "lucide-react";
 import Image from "next/image";
 import type { User } from "@supabase/supabase-js";
 
@@ -11,7 +11,6 @@ interface Profile {
   username: string | null;
   avatar_url: string | null;
   email: string | null;
-  phone: string | null;
   updated_at: string | null;
 }
 
@@ -67,11 +66,6 @@ export function AccountForm({ user, profile }: AccountFormProps) {
   const [emailPassword, setEmailPassword] = useState("");
   const [savingEmail, setSavingEmail] = useState(false);
   const [emailStatus, setEmailStatus] = useState<{ message: string; type: "success" | "error" } | null>(null);
-
-  // Phone state
-  const [phone, setPhone] = useState(profile?.phone || "");
-  const [savingPhone, setSavingPhone] = useState(false);
-  const [phoneStatus, setPhoneStatus] = useState<{ message: string; type: "success" | "error" } | null>(null);
 
   // Password state
   const [currentPassword, setCurrentPassword] = useState("");
@@ -202,27 +196,6 @@ export function AccountForm({ user, profile }: AccountFormProps) {
     setSavingEmail(false);
   };
 
-  // ── Phone Update ───────────────────────────────────────
-  const handlePhoneUpdate = async () => {
-    if (!phone.trim()) return;
-
-    setSavingPhone(true);
-    setPhoneStatus(null);
-
-    const { error } = await supabase.auth.updateUser({ phone });
-
-    if (error) {
-      setPhoneStatus({ message: error.message, type: "error" });
-    } else {
-      // Update profile
-      await supabase
-        .from("profiles")
-        .update({ phone, updated_at: new Date().toISOString() })
-        .eq("id", user.id);
-      setPhoneStatus({ message: "Verification code sent to your phone.", type: "success" });
-    }
-    setSavingPhone(false);
-  };
 
   // ── Password Update ────────────────────────────────────
   const handlePasswordUpdate = async () => {
@@ -261,20 +234,25 @@ export function AccountForm({ user, profile }: AccountFormProps) {
       }
     }
 
-    // Update password
-    const { error } = await supabase.auth.updateUser({
-      password: newPassword,
-    });
+    try {
+      // Update password
+      const { error } = await supabase.auth.updateUser({
+        password: newPassword,
+      });
 
-    if (error) {
-      setPasswordStatus({ message: error.message, type: "error" });
-    } else {
-      setPasswordStatus({ message: "Password updated.", type: "success" });
-      setCurrentPassword("");
-      setNewPassword("");
-      setConfirmPassword("");
+      if (error) {
+        setPasswordStatus({ message: error.message, type: "error" });
+      } else {
+        setPasswordStatus({ message: "Password updated.", type: "success" });
+        setCurrentPassword("");
+        setNewPassword("");
+        setConfirmPassword("");
+      }
+    } catch (err: any) {
+      setPasswordStatus({ message: err?.message || "An unexpected error occurred.", type: "error" });
+    } finally {
+      setSavingPassword(false);
     }
-    setSavingPassword(false);
   };
 
   // ── Password Reset ─────────────────────────────────────
@@ -414,33 +392,6 @@ export function AccountForm({ user, profile }: AccountFormProps) {
         {emailStatus && <StatusMessage {...emailStatus} />}
       </SectionCard>
 
-      {/* ── Phone ───────────────────────────────────────────── */}
-      <SectionCard title="Phone" icon={Phone}>
-        {profile?.phone ? (
-          <p className="text-sm text-foreground mb-4">
-            Current: <span className="text-primary">{profile.phone}</span>
-          </p>
-        ) : (
-          <p className="text-sm text-muted-foreground mb-4">No phone linked.</p>
-        )}
-        <div className="flex gap-3">
-          <input
-            type="tel"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            className="flex-1 h-11 rounded-lg border border-input bg-background/50 px-4 text-sm text-foreground transition-all duration-300 focus:outline-none focus:border-primary"
-            placeholder="+1234567890"
-          />
-          <button
-            onClick={handlePhoneUpdate}
-            disabled={savingPhone}
-            className="px-5 h-11 rounded-lg text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-all disabled:opacity-50"
-          >
-            {savingPhone ? "Saving..." : profile?.phone ? "Update Phone" : "Link Phone"}
-          </button>
-        </div>
-        {phoneStatus && <StatusMessage {...phoneStatus} />}
-      </SectionCard>
 
       {/* ── Password ────────────────────────────────────────── */}
       <SectionCard title="Change Password" icon={KeyRound}>

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { UserPlus } from "lucide-react";
-import { signup } from "./actions";
+import { checkUsername } from "./actions";
 import { useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 
@@ -55,9 +55,66 @@ export default function SignupPage() {
   const handleSubmit = async (formData: FormData) => {
     setLoading(true);
     setError(null);
-    const result = await signup(formData);
-    if (result?.error) {
-      setError(result.error);
+    
+    const username = formData.get("username") as string;
+    const password = formData.get("password") as string;
+    const email = (formData.get("email") as string)?.trim();
+
+    if (!username || !password || !email) {
+      setError("Username, email, and password are required.");
+      setLoading(false);
+      return;
+    }
+
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters.");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      // 1. Check if username is available (server action)
+      const usernameCheck = await checkUsername(username);
+      if (usernameCheck?.error) {
+        setError(usernameCheck.error);
+        setLoading(false);
+        return;
+      }
+
+      // 2. Sign up with Supabase (client side)
+      const supabase = createClient();
+      const { data, error: signUpError } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            username,
+          },
+        },
+      });
+
+      if (signUpError) {
+        if (signUpError.message.includes("already registered")) {
+          setError("An account with this email already exists.");
+        } else {
+          setError(signUpError.message);
+        }
+        setLoading(false);
+        return;
+      }
+
+      // 3. Update profile email if successful
+      if (data?.user) {
+        await supabase
+          .from("profiles")
+          .update({ email })
+          .eq("id", data.user.id);
+      }
+
+      // 4. Redirect to home
+      window.location.href = "/home";
+    } catch (err) {
+      setError("An unexpected error occurred during sign up.");
       setLoading(false);
     }
   };
@@ -97,7 +154,7 @@ export default function SignupPage() {
             </div>
             <div className="space-y-2 group">
               <label className="text-xs font-semibold tracking-widest text-muted-foreground uppercase group-focus-within:text-primary transition-colors" htmlFor="email">
-                Email <span className="text-muted-foreground/50 normal-case tracking-normal font-normal">(optional)</span>
+                Email
               </label>
               <input 
                 className="flex h-12 w-full rounded-lg border border-input bg-background/50 px-4 py-2 text-sm text-foreground transition-all duration-300 placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary" 
@@ -105,6 +162,7 @@ export default function SignupPage() {
                 name="email"
                 type="email" 
                 placeholder="you@example.com" 
+                required
               />
             </div>
             <div className="space-y-2 group">
