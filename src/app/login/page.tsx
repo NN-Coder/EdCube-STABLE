@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { LogIn } from "lucide-react";
-import { login } from "./actions";
+import { lookupEmail } from "./actions";
 import { useSearchParams } from "next/navigation";
 import { useState, Suspense } from "react";
 import { createClient } from "@/utils/supabase/client";
@@ -61,9 +61,40 @@ function LoginForm() {
   const handleSubmit = async (formData: FormData) => {
     setLoading(true);
     setError(null);
-    const result = await login(formData);
-    if (result?.error) {
-      setError(result.error);
+    
+    const identifier = formData.get("identifier") as string;
+    const password = formData.get("password") as string;
+
+    if (!identifier || !password) {
+      setError("Username/email and password are required.");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const authEmail = await lookupEmail(identifier);
+      
+      if (!authEmail) {
+        setError("Invalid username or password.");
+        setLoading(false);
+        return;
+      }
+
+      const supabase = createClient();
+      const { error: authError } = await supabase.auth.signInWithPassword({
+        email: authEmail,
+        password,
+      });
+
+      if (authError) {
+        setError("Invalid username or password.");
+        setLoading(false);
+        return;
+      }
+
+      window.location.href = "/home";
+    } catch (err) {
+      setError("An unexpected error occurred.");
       setLoading(false);
     }
   };
