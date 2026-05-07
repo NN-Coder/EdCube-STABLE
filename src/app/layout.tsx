@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import { Inter, Orbitron } from "next/font/google";
+import { Orbitron } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
-  variable: "--font-sans",
-  subsets: ["latin"],
-});
+import { ThemeProvider } from "@/components/theme-provider";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
+import { SpaceCanvas } from "@/components/background/SpaceCanvas";
+import { AnalyticsProvider } from "@/components/analytics-provider";
 
 const orbitron = Orbitron({
   variable: "--font-orbitron",
@@ -13,13 +14,17 @@ const orbitron = Orbitron({
 });
 
 export const metadata: Metadata = {
-  title: "EdCube",
-  description: "Minimalist gaming platform built for speed and immersion.",
+  title: "EdCube | Amazing Free Games",
+  description:
+    "Your ultimate destination for gaming. Unlimited online free games!",
+  openGraph: {
+    title: "EdCube | Amazing Free Games",
+    description:
+      "Your ultimate destination for gaming. Unlimited online free games!",
+    type: "website",
+  },
+  robots: "index, follow",
 };
-
-import { ThemeProvider } from "@/components/theme-provider";
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
 
 export default function RootLayout({
   children,
@@ -29,20 +34,26 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${orbitron.variable} dark h-full antialiased`}
+      className={`${orbitron.variable} dark h-full antialiased`}
       suppressHydrationWarning
     >
-      <body className="min-h-screen bg-background font-sans antialiased flex flex-col overflow-x-hidden text-foreground">
+      <head>
+        <link rel="icon" href="/logo.jpg" type="image/jpeg" />
+      </head>
+      <body
+        className="min-h-screen font-heading antialiased flex flex-col overflow-x-hidden"
+        style={{ background: "linear-gradient(135deg, #1a0a2a, #0a0a1a, #05010a)" }}
+      >
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
           forcedTheme="dark"
           disableTransitionOnChange
         >
+          <SpaceCanvas />
+          <AnalyticsProvider />
           <Header />
-          <main className="flex-1">
-            {children}
-          </main>
+          <main className="flex-1 relative z-10">{children}</main>
           <Footer />
         </ThemeProvider>
       </body>
