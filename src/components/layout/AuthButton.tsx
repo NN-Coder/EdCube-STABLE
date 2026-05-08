@@ -21,9 +21,16 @@ export function AuthButton() {
     supabase.auth.getUser().then(async ({ data: { user } }) => {
       setUser(user);
       if (user) {
-        const { data } = await supabase.from('profiles').select('avatar_url, username').eq('id', user.id).single();
+        const { data } = await supabase.from('profiles').select('avatar_url, username, updated_at').eq('id', user.id).single();
         setUsername(data?.username || user.user_metadata?.full_name || null);
-        setAvatarUrl(data?.avatar_url || user.user_metadata?.avatar_url || getAvatarUrl(user.id));
+        const baseAvatarUrl = data?.avatar_url || user.user_metadata?.avatar_url || getAvatarUrl(user.id);
+        if (baseAvatarUrl) {
+          const timestamp = data?.updated_at ? new Date(data.updated_at).getTime() : Date.now();
+          const hasQuery = baseAvatarUrl.includes('?');
+          setAvatarUrl(`${baseAvatarUrl}${hasQuery ? '&' : '?'}t=${timestamp}`);
+        } else {
+          setAvatarUrl(null);
+        }
       }
     });
 
@@ -32,9 +39,16 @@ export function AuthButton() {
       const currentUser = session?.user ?? null;
       setUser(currentUser);
       if (currentUser) {
-        const { data } = await supabase.from('profiles').select('avatar_url, username').eq('id', currentUser.id).single();
+        const { data } = await supabase.from('profiles').select('avatar_url, username, updated_at').eq('id', currentUser.id).single();
         setUsername(data?.username || currentUser.user_metadata?.full_name || null);
-        setAvatarUrl(data?.avatar_url || currentUser.user_metadata?.avatar_url || getAvatarUrl(currentUser.id));
+        const baseAvatarUrl = data?.avatar_url || currentUser.user_metadata?.avatar_url || getAvatarUrl(currentUser.id);
+        if (baseAvatarUrl) {
+          const timestamp = data?.updated_at ? new Date(data.updated_at).getTime() : Date.now();
+          const hasQuery = baseAvatarUrl.includes('?');
+          setAvatarUrl(`${baseAvatarUrl}${hasQuery ? '&' : '?'}t=${timestamp}`);
+        } else {
+          setAvatarUrl(null);
+        }
       } else {
         setAvatarUrl(null);
         setUsername(null);
