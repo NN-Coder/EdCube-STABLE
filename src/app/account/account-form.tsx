@@ -60,15 +60,7 @@ export function AccountForm({ user, profile }: AccountFormProps) {
   const [savingUsername, setSavingUsername] = useState(false);
   const [usernameStatus, setUsernameStatus] = useState<{ message: string; type: "success" | "error" } | null>(null);
 
-  // Password state
-  const hasPassword = user?.app_metadata?.providers?.includes("email") ?? false;
-  const [currentPassword, setCurrentPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [savingPassword, setSavingPassword] = useState(false);
-  const [passwordStatus, setPasswordStatus] = useState<{ message: string; type: "success" | "error" } | null>(null);
 
-  // ── Avatar Upload ──────────────────────────────────────
   const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -143,63 +135,6 @@ export function AccountForm({ user, profile }: AccountFormProps) {
       setUsernameStatus({ message: "Username updated.", type: "success" });
     }
     setSavingUsername(false);
-  };
-
-  // ── Password Update ────────────────────────────────────
-  const handlePasswordUpdate = async () => {
-    if (hasPassword && !currentPassword) {
-      setPasswordStatus({ message: "Current password is required.", type: "error" });
-      return;
-    }
-    if (!newPassword || !confirmPassword) {
-      setPasswordStatus({ message: "New password fields are required.", type: "error" });
-      return;
-    }
-    if (newPassword !== confirmPassword) {
-      setPasswordStatus({ message: "New passwords do not match.", type: "error" });
-      return;
-    }
-    if (newPassword.length < 6) {
-      setPasswordStatus({ message: "New password must be at least 6 characters.", type: "error" });
-      return;
-    }
-
-    setSavingPassword(true);
-    setPasswordStatus(null);
-
-    try {
-      // Verify current password
-      if (hasPassword) {
-        const currentEmail = profile?.email || `${profile?.username}@edcube.net`;
-        const { error: signInError } = await supabase.auth.signInWithPassword({
-          email: currentEmail,
-          password: currentPassword,
-        });
-
-        if (signInError) {
-          setPasswordStatus({ message: "Current password is incorrect.", type: "error" });
-          return;
-        }
-      }
-
-      // Update password
-      const { error } = await supabase.auth.updateUser({
-        password: newPassword,
-      });
-
-      if (error) {
-        setPasswordStatus({ message: error.message, type: "error" });
-      } else {
-        setPasswordStatus({ message: "Password updated.", type: "success" });
-        setCurrentPassword("");
-        setNewPassword("");
-        setConfirmPassword("");
-      }
-    } catch (err: any) {
-      setPasswordStatus({ message: err?.message || "An unexpected error occurred.", type: "error" });
-    } finally {
-      setSavingPassword(false);
-    }
   };
 
 
@@ -286,43 +221,6 @@ export function AccountForm({ user, profile }: AccountFormProps) {
 
 
 
-
-      {/* ── Password ────────────────────────────────────────── */}
-      <SectionCard title="Change Password" icon={KeyRound}>
-        <div className="space-y-3">
-          {hasPassword && (
-            <input
-              type="password"
-              value={currentPassword}
-              onChange={(e) => setCurrentPassword(e.target.value)}
-              className="w-full h-11 rounded-lg border border-input bg-background/50 px-4 text-sm text-foreground transition-all duration-300 focus:outline-none focus:border-primary"
-              placeholder="Current password"
-            />
-          )}
-          <input
-            type="password"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-            className="w-full h-11 rounded-lg border border-input bg-background/50 px-4 text-sm text-foreground transition-all duration-300 focus:outline-none focus:border-primary"
-            placeholder="New password"
-          />
-          <input
-            type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            className="w-full h-11 rounded-lg border border-input bg-background/50 px-4 text-sm text-foreground transition-all duration-300 focus:outline-none focus:border-primary"
-            placeholder="Confirm new password"
-          />
-          <button
-            onClick={handlePasswordUpdate}
-            disabled={savingPassword}
-            className="px-5 h-11 rounded-lg text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-all disabled:opacity-50"
-          >
-            {savingPassword ? "Updating..." : "Update Password"}
-          </button>
-        </div>
-        {passwordStatus && <StatusMessage {...passwordStatus} />}
-      </SectionCard>
 
 
 
