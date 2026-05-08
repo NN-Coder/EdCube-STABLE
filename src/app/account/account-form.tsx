@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 import { createClient } from "@/utils/supabase/client";
-import { Camera, Check, AlertCircle, KeyRound, Mail, LogOut } from "lucide-react";
+import { Camera, Check, AlertCircle, KeyRound, LogOut } from "lucide-react";
 import Image from "next/image";
 import type { User } from "@supabase/supabase-js";
 
@@ -60,22 +60,13 @@ export function AccountForm({ user, profile }: AccountFormProps) {
   const [savingUsername, setSavingUsername] = useState(false);
   const [usernameStatus, setUsernameStatus] = useState<{ message: string; type: "success" | "error" } | null>(null);
 
-  // Email state
-  const hasPassword = user?.app_metadata?.providers?.includes("email") ?? false;
-  const [email, setEmail] = useState(profile?.email || "");
-  const [emailPassword, setEmailPassword] = useState("");
-  const [savingEmail, setSavingEmail] = useState(false);
-  const [emailStatus, setEmailStatus] = useState<{ message: string; type: "success" | "error" } | null>(null);
-
   // Password state
+  const hasPassword = user?.app_metadata?.providers?.includes("email") ?? false;
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [savingPassword, setSavingPassword] = useState(false);
   const [passwordStatus, setPasswordStatus] = useState<{ message: string; type: "success" | "error" } | null>(null);
-
-  // Password reset state
-  const [resetStatus, setResetStatus] = useState<{ message: string; type: "success" | "error" } | null>(null);
 
   // ── Avatar Upload ──────────────────────────────────────
   const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -154,49 +145,6 @@ export function AccountForm({ user, profile }: AccountFormProps) {
     setSavingUsername(false);
   };
 
-  // ── Email Update ───────────────────────────────────────
-  const handleEmailUpdate = async () => {
-    if (!email.trim()) return;
-
-    setSavingEmail(true);
-    setEmailStatus(null);
-
-    // Verify current password first
-    if (hasPassword) {
-      if (emailPassword) {
-        const currentEmail = profile?.email || `${profile?.username}@edcube.net`;
-        const { error: signInError } = await supabase.auth.signInWithPassword({
-          email: currentEmail,
-          password: emailPassword,
-        });
-
-        if (signInError) {
-          setEmailStatus({ message: "Current password is incorrect.", type: "error" });
-          setSavingEmail(false);
-          return;
-        }
-      } else {
-        setEmailStatus({ message: "Please enter your current password.", type: "error" });
-        setSavingEmail(false);
-        return;
-      }
-    }
-
-    // Update email in Supabase Auth (triggers verification email)
-    const { error } = await supabase.auth.updateUser({
-      email,
-    });
-
-    if (error) {
-      setEmailStatus({ message: error.message, type: "error" });
-    } else {
-      setEmailStatus({ message: "Verification email sent. Check your inbox to confirm.", type: "success" });
-      setEmailPassword("");
-    }
-    setSavingEmail(false);
-  };
-
-
   // ── Password Update ────────────────────────────────────
   const handlePasswordUpdate = async () => {
     if (hasPassword && !currentPassword) {
@@ -219,22 +167,21 @@ export function AccountForm({ user, profile }: AccountFormProps) {
     setSavingPassword(true);
     setPasswordStatus(null);
 
-    // Verify current password
-    if (hasPassword) {
-      const currentEmail = profile?.email || `${profile?.username}@edcube.net`;
-      const { error: signInError } = await supabase.auth.signInWithPassword({
-        email: currentEmail,
-        password: currentPassword,
-      });
-
-      if (signInError) {
-        setPasswordStatus({ message: "Current password is incorrect.", type: "error" });
-        setSavingPassword(false);
-        return;
-      }
-    }
-
     try {
+      // Verify current password
+      if (hasPassword) {
+        const currentEmail = profile?.email || `${profile?.username}@edcube.net`;
+        const { error: signInError } = await supabase.auth.signInWithPassword({
+          email: currentEmail,
+          password: currentPassword,
+        });
+
+        if (signInError) {
+          setPasswordStatus({ message: "Current password is incorrect.", type: "error" });
+          return;
+        }
+      }
+
       // Update password
       const { error } = await supabase.auth.updateUser({
         password: newPassword,
@@ -255,25 +202,7 @@ export function AccountForm({ user, profile }: AccountFormProps) {
     }
   };
 
-  // ── Password Reset ─────────────────────────────────────
-  const handlePasswordReset = async () => {
-    if (!profile?.email) {
-      setResetStatus({ message: "You need a linked email to receive a reset link.", type: "error" });
-      return;
-    }
 
-    setResetStatus(null);
-
-    const { error } = await supabase.auth.resetPasswordForEmail(profile.email, {
-      redirectTo: `${window.location.origin}/auth/confirm`,
-    });
-
-    if (error) {
-      setResetStatus({ message: error.message, type: "error" });
-    } else {
-      setResetStatus({ message: "Password reset email sent. Check your inbox.", type: "success" });
-    }
-  };
 
   // ── Sign Out ───────────────────────────────────────────
   const handleSignOut = async () => {
@@ -355,42 +284,7 @@ export function AccountForm({ user, profile }: AccountFormProps) {
         {usernameStatus && <StatusMessage {...usernameStatus} />}
       </SectionCard>
 
-      {/* ── Email ───────────────────────────────────────────── */}
-      <SectionCard title="Email" icon={Mail}>
-        {profile?.email ? (
-          <p className="text-sm text-foreground mb-4">
-            Current: <span className="text-primary">{profile.email}</span>
-          </p>
-        ) : (
-          <p className="text-sm text-muted-foreground mb-4">No email linked. Add one to enable password reset.</p>
-        )}
-        <div className="space-y-3">
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full h-11 rounded-lg border border-input bg-background/50 px-4 text-sm text-foreground transition-all duration-300 focus:outline-none focus:border-primary"
-            placeholder="you@example.com"
-          />
-          {hasPassword && (
-            <input
-              type="password"
-              value={emailPassword}
-              onChange={(e) => setEmailPassword(e.target.value)}
-              className="w-full h-11 rounded-lg border border-input bg-background/50 px-4 text-sm text-foreground transition-all duration-300 focus:outline-none focus:border-primary"
-              placeholder="Current password (required)"
-            />
-          )}
-          <button
-            onClick={handleEmailUpdate}
-            disabled={savingEmail}
-            className="px-5 h-11 rounded-lg text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-all disabled:opacity-50"
-          >
-            {savingEmail ? "Saving..." : profile?.email ? "Update Email" : "Link Email"}
-          </button>
-        </div>
-        {emailStatus && <StatusMessage {...emailStatus} />}
-      </SectionCard>
+
 
 
       {/* ── Password ────────────────────────────────────────── */}
@@ -430,21 +324,7 @@ export function AccountForm({ user, profile }: AccountFormProps) {
         {passwordStatus && <StatusMessage {...passwordStatus} />}
       </SectionCard>
 
-      {/* ── Password Reset ──────────────────────────────────── */}
-      {profile?.email && (
-        <SectionCard title="Password Reset" icon={Mail}>
-          <p className="text-sm text-muted-foreground mb-4">
-            Send a password reset link to your email address.
-          </p>
-          <button
-            onClick={handlePasswordReset}
-            className="px-5 h-11 rounded-lg text-sm font-medium border border-border bg-background/50 text-foreground hover:border-primary/50 hover:bg-muted/50 transition-all"
-          >
-            Send Reset Link
-          </button>
-          {resetStatus && <StatusMessage {...resetStatus} />}
-        </SectionCard>
-      )}
+
 
       {/* ── Sign Out ────────────────────────────────────────── */}
       <div className="pt-4">
