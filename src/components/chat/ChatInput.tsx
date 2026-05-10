@@ -3,24 +3,12 @@
 import { useState, useRef, useEffect } from "react";
 import { Send, Loader2 } from "lucide-react";
 import { sendMessage } from "@/app/actions/chat";
-import Script from "next/script";
-
-const SITE_KEY = "0x4AAAAAADMPZawaHLvRHieq";
 
 export default function ChatInput({ isFrozen, isAdmin, user }: { isFrozen: boolean; isAdmin: boolean; user: any }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [lastSentTime, setLastSentTime] = useState(0);
   const formRef = useRef<HTMLFormElement>(null);
-  const turnstileRef = useRef<HTMLDivElement>(null);
-
-  // Re-render turnstile when needed or reset it after submit
-  const resetTurnstile = () => {
-    if (window.turnstile && turnstileRef.current) {
-      window.turnstile.reset(turnstileRef.current);
-    }
-  };
-
   const handleSubmit = async (formData: FormData) => {
     setError(null);
     
@@ -51,14 +39,11 @@ export default function ChatInput({ isFrozen, isAdmin, user }: { isFrozen: boole
       const result = await sendMessage(formData);
       if (result.error) {
         setError(result.error);
-        resetTurnstile();
       } else {
         formRef.current?.reset();
-        resetTurnstile();
       }
     } catch (err) {
       setError("An unexpected error occurred.");
-      resetTurnstile();
     } finally {
       setIsSubmitting(false);
     }
@@ -66,8 +51,6 @@ export default function ChatInput({ isFrozen, isAdmin, user }: { isFrozen: boole
 
   return (
     <div className="w-full flex flex-col gap-2">
-      <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js" strategy="lazyOnload" />
-      
       {error && <p className="text-red-400 text-xs px-2">{error}</p>}
       
       <form 
@@ -85,10 +68,6 @@ export default function ChatInput({ isFrozen, isAdmin, user }: { isFrozen: boole
             autoComplete="off"
             maxLength={500}
           />
-          {/* Turnstile hidden input container */}
-          <div className="hidden">
-            <div ref={turnstileRef} className="cf-turnstile" data-sitekey={SITE_KEY}></div>
-          </div>
         </div>
 
         <button
@@ -101,11 +80,4 @@ export default function ChatInput({ isFrozen, isAdmin, user }: { isFrozen: boole
       </form>
     </div>
   );
-}
-
-// Ensure window.turnstile type exists
-declare global {
-  interface Window {
-    turnstile: any;
-  }
 }
