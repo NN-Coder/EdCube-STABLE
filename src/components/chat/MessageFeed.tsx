@@ -51,7 +51,7 @@ export default function MessageFeed({ safeMode, user, isAdmin, supabase }: { saf
       if (data) {
         const sorted = data.reverse();
         setMessages(sorted);
-        const userIds = [...new Set(sorted.map((m: any) => m.user_id))];
+        const userIds = Array.from(new Set<string>(sorted.map((m: any) => m.user_id as string)));
         await fetchProfiles(userIds);
         scrollToBottom();
       }
@@ -61,7 +61,7 @@ export default function MessageFeed({ safeMode, user, isAdmin, supabase }: { saf
 
     const channel = supabase
       .channel("public:messages")
-      .on("postgres_changes", { event: "INSERT", schema: "public", table: "messages" }, async (payload) => {
+      .on("postgres_changes", { event: "INSERT", schema: "public", table: "messages" }, async (payload: any) => {
         setMessages((prev) => {
           const newMsgs = [...prev, payload.new];
           // Restrict scroll up history to 100 messages
@@ -73,7 +73,7 @@ export default function MessageFeed({ safeMode, user, isAdmin, supabase }: { saf
         }
         setTimeout(scrollToBottom, 100);
       })
-      .on("postgres_changes", { event: "DELETE", schema: "public", table: "messages" }, (payload) => {
+      .on("postgres_changes", { event: "DELETE", schema: "public", table: "messages" }, (payload: any) => {
         setMessages((prev) => prev.filter((m) => m.id !== payload.old.id));
       })
       .subscribe();
