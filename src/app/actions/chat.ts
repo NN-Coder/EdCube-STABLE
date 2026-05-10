@@ -3,7 +3,6 @@
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 
-const TURNSTILE_SECRET_KEY = "0x4AAAAAADMPZUnX4v_rR9Kl_tQKRyFL-no";
 const ADMIN_UUID = "1ff896ac-ee93-4e70-8c75-d98cb41f3c69";
 
 // Extremely basic slur list (placeholder for actual filtering logic)
@@ -33,7 +32,6 @@ export async function sendMessage(formData: FormData) {
   }
 
   const content = formData.get("content") as string;
-  const turnstileToken = formData.get("cf-turnstile-response") as string;
 
   if (!content || !content.trim()) {
     return { error: "Message cannot be empty." };
@@ -43,24 +41,6 @@ export async function sendMessage(formData: FormData) {
     return { error: "Message is too long. Max 500 characters." };
   }
 
-  // 1. Verify Turnstile
-  if (!turnstileToken) {
-    return { error: "Turnstile verification missing." };
-  }
-
-  const verifyEndpoint = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
-  const verifyResponse = await fetch(verifyEndpoint, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    body: `secret=${TURNSTILE_SECRET_KEY}&response=${turnstileToken}`,
-  });
-
-  const verifyData = await verifyResponse.json();
-  if (!verifyData.success) {
-    return { error: "Turnstile verification failed. Are you a bot?" };
-  }
 
   // 2. Check Global Freeze (Optional: can also be done via RLS or prior query, doing here for double check)
   const { data: settings } = await supabase
