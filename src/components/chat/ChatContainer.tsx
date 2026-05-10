@@ -12,7 +12,7 @@ const ADMIN_UUID = "1ff896ac-ee93-4e70-8c75-d98cb41f3c69";
 export default function ChatContainer({ user, profile }: { user: any; profile: any }) {
   const [safeMode, setSafeMode] = useState(true);
   const [isFrozen, setIsFrozen] = useState(false);
-  const supabase = createClient();
+  const [supabase] = useState(() => createClient());
 
   useEffect(() => {
     // Fetch initial chat settings
@@ -84,7 +84,7 @@ export default function ChatContainer({ user, profile }: { user: any; profile: a
       <div className="w-full md:w-64 flex flex-col bg-black/40 hidden md:flex">
         <div className="h-16 border-b border-white/10 flex items-center px-4 bg-black/60">
           <h3 className="text-sm font-bold text-muted-foreground uppercase tracking-widest">
-            Active Nodes
+            Active Users
           </h3>
         </div>
         <div className="flex-1 overflow-y-auto custom-scrollbar p-2">
