@@ -1,0 +1,269 @@
+<!-- /index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>EdCube</title>
+
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://edcube.codehs.me">
+    <meta property="og:title" content="EdCube | Amazing Free Games">
+    <meta name="description" content="Your ultimate destination for gaming. Unlimited online free games!">
+    <meta property="og:description" content="Your ultimate destination for gaming. Unlimited online free games!">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="edcube.codehs.me">
+    
+    <link rel="icon" href="../logo.jpg" type="image/x-icon">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --main-color: #00ffcc;
+            --accent-color: #ff00ff;
+            --button-bg-start: #333;
+            --button-bg-end: #555;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100svh;
+            overflow: hidden;
+            background: linear-gradient(135deg, #1a0a2a, #0a0a1a, #05010a);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Orbitron', sans-serif;
+            color: var(--main-color);
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .content-container {
+            z-index: 2;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 90%;
+            max-width: 1200px;
+            pointer-events: none; 
+            padding: 5%;
+        }
+
+        .button-link {
+            pointer-events: auto;
+            text-decoration: none;
+            opacity: 0;
+            animation: fadeIn 1.5s ease-out forwards;
+            animation-delay: 1.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(2vh); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes subtleGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            line-height: 1.1;
+            font-weight: 700;
+            margin-bottom: 2vh;
+            letter-spacing: 0.2vw;
+            background: linear-gradient(120deg, var(--main-color) 0%, #aeffee 50%, var(--main-color) 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 0.5rem rgba(0, 255, 204, 0.4));
+            opacity: 0;
+            animation: subtleGradient 8s ease-in-out infinite, fadeIn 1.5s ease-out forwards;
+            animation-delay: 0.5s;
+        }
+
+        h2 {
+            font-size: clamp(1rem, 3.5vw, 1.8rem);
+            font-weight: 400;
+            margin-top: 0;
+            margin-bottom: 5vh;
+            color: #b3ffeb;
+            letter-spacing: 0.1vw;
+            opacity: 0;
+            animation: fadeIn 1.5s ease-out forwards;
+            animation-delay: 1s;
+        }
+
+        .get-started-button {
+            padding: 1.5vh 3vw;
+            min-width: 160px;
+            background: linear-gradient(90deg, var(--button-bg-start), var(--button-bg-end));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            cursor: pointer;
+            outline: none;
+            box-shadow: 0 0.5vh 1.5vh rgba(0, 0, 0, 0.4);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            letter-spacing: 1px;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+
+        .get-started-button:hover, .get-started-button:active {
+            background: linear-gradient(90deg, var(--accent-color), var(--main-color));
+            box-shadow: 0 0.8vh 2.5vh rgba(255, 0, 255, 0.6);
+            transform: translateY(-0.1vh) scale(1.05);
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EZJ4RW4BH4"></script>
+    <script>
+      const game_width = "Ry1FWko0Ulc0Qkg0";
+      const game_height = atob(game_width);
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', game_height);
+    </script>
+    
+    <canvas id="spaceCanvas"></canvas>
+
+    <div class="content-container">
+        <h1>Welcome to EdCube</h1>
+        <h2>Start your gaming journey today!</h2>
+        <a href="home.html" class="button-link">
+            <button class="get-started-button">Get Started</button>
+        </a>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('spaceCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let stars = [];
+        const starCount = window.innerWidth < 600 ? 120 : 200; 
+
+        let mouse = {
+            x: null,
+            y: null,
+            radius: Math.min(window.innerWidth, window.innerHeight) * 0.15 
+        }
+
+        window.addEventListener('mousemove', (e) => { mouse.x = e.x; mouse.y = e.y; });
+        window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
+
+        window.addEventListener('touchmove', (e) => {
+            if(e.touches.length > 0) {
+                mouse.x = e.touches[0].clientX;
+                mouse.y = e.touches[0].clientY;
+            }
+        });
+
+        window.addEventListener('touchstart', (e) => {
+            if(e.touches.length > 0) {
+                mouse.x = e.touches[0].clientX;
+                mouse.y = e.touches[0].clientY;
+            }
+        });
+
+        window.addEventListener('touchend', () => { mouse.x = null; mouse.y = null; });
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            mouse.radius = Math.min(canvas.width, canvas.height) * 0.15;
+            if (mouse.radius < 100) mouse.radius = 100;
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Star {
+            constructor() { this.init(true); }
+
+            init(isInitial = false) {
+                this.x = Math.random() * canvas.width;
+                this.y = isInitial ? Math.random() * canvas.height : canvas.height + 10;
+                this.size = Math.random() * 1.2 + 0.3;
+                this.baseSpeedY = (Math.random() * 0.15 + 0.05) * -1;
+                this.baseSpeedX = (Math.random() - 0.5) * 0.05;
+                this.speedY = this.baseSpeedY;
+                this.speedX = this.baseSpeedX;
+                this.opacity = Math.random() * 0.8 + 0.2;
+
+                const hue = Math.random();
+                if (hue < 0.2) this.color = `rgba(180, 220, 255,`;
+                else if (hue < 0.4) this.color = `rgba(255, 180, 255,`;
+                else if (hue < 0.6) this.color = `rgba(180, 255, 220,`;
+                else this.color = `rgba(255, 255, 255,`;
+            }
+
+            update() {
+                let dx = mouse.x - this.x;
+                let dy = mouse.y - this.y;
+                let distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance < mouse.radius && mouse.x !== null) {
+                    const force = (mouse.radius - distance) / mouse.radius;
+                    this.x -= (dx / distance) * force * 3;
+                    this.y -= (dy / distance) * force * 3;
+                }
+
+                this.y += this.speedY;
+                this.x += this.speedX;
+
+                if (this.y < -10) this.init(false);
+                if (this.x < 0) this.x = canvas.width;
+                if (this.x > canvas.width) this.x = 0;
+
+                if (Math.random() > 0.99) this.opacity = Math.random() * 0.8 + 0.2;
+            }
+
+            draw() {
+                ctx.fillStyle = `${this.color} ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function setup() {
+            stars = [];
+            const dynamicCount = window.innerWidth < 600 ? 120 : 200;
+            for (let i = 0; i < dynamicCount; i++) { stars.push(new Star()); }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            stars.forEach(star => { star.update(); star.draw(); });
+            requestAnimationFrame(animate);
+        }
+
+        setup();
+        animate();
+    </script>
+</body>
+</html>

@@ -1,6 +1,4 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# dependencies
+# Dependencies
 /node_modules
 /.pnp
 .pnp.*
@@ -10,43 +8,33 @@
 !.yarn/releases
 !.yarn/versions
 
-# testing
-/coverage
-
-# next.js
+# Next.js
 /.next/
 /out/
 
-# production
+# Production Build
 /build
+/dist
 
-# misc
-.DS_Store
-*.pem
-
-# debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
-
-# env files (can opt-in for committing if needed)
-.env*
-
-# vercel
-.vercel
-
-# cloudflare / opennext
+# Cloudflare / OpenNext
 .open-next
 .dev.vars
 .wrangler/
 worker-configuration.d.ts
 
-# typescript
-*.tsbuildinfo
-next-env.d.ts
+# Testing
+/coverage
 
-# build / deploy output logs
+# Environment Variables
+.env*
+!.env.example
+
+# Logs and Debug
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
 build_output.txt
 deploy_output.txt
 docker_build.txt
@@ -54,12 +42,35 @@ eslint_output.txt
 tail_output.txt
 wrangler_deploy_only.txt
 
-# docs (contains credentials and local-only reference)
-docs/
-
-# IDE / Editor
+# Editor / IDE
 .vscode/
 .idea/
+*.swp
+*.swo
+.project
+.classpath
+.settings/
 
-# Gemini agent state
+# OS Specific
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# AI / Agent State
 .gemini/
+.clippy/
+
+# Misc
+.vercel
+.turbo
+.eslintcache
+
