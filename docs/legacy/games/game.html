@@ -1,0 +1,93 @@
+<!-- /games/game.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EdCube | Loading...</title>
+    <link rel="icon" href="../logo.jpg" type="image/x-icon">
+
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EZJ4RW4BH4"></script>
+    <script>
+      const game_width = "Ry1FWko0Ulc0Qkg0";
+      const game_height = atob(game_width);
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', game_height);
+    </script>
+
+    <!-- Header -->
+    <header class="site-header">
+        <div class="header-content">
+            <div class="header-left">
+                <a href="../home.html">
+                    <img src="../logo.jpg" alt="EdCube Logo" class="logo-img" title="Back to Home" loading="lazy">
+                </a>
+            </div>
+            <nav class="header-right">
+                <button class="nav-icon-link" onclick="openBlank()">
+                    <i data-lucide="external-link"></i>
+                    <span>Cloak</span>
+                </button>
+                <a href="../home.html" class="nav-icon-link">
+                    <i data-lucide="home"></i>
+                    <span>Home</span>
+                </a>
+                
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-wrapper">
+        <section class="game-section">
+            <h1 class="game-title" id="displayTitle">Loading...</h1>
+
+            <!-- Game Frame -->
+            <div class="iframe-container">
+                <iframe src="" id="gameFrame" allowfullscreen></iframe>
+                
+                <!-- Options Bar -->
+                <div class="options-bar">
+                    <button class="nav-icon-link" id="fullscreenBtn" title="Fullscreen (F)">
+                        <i data-lucide="maximize"></i>
+                    </button>
+                    <button class="nav-icon-link" id="shareBtn" title="Share">
+                        <i data-lucide="share-2"></i>
+                    </button>
+                    <a href="https://github.com/NN-Coder/EdCube-STABLE/issues/new" target="_blank" class="nav-icon-link" title="Report Bug">
+                        <i data-lucide="flag"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recommended Games -->
+        <section class="recommended-section">
+            <h2 class="section-subtitle">Recommended Games</h2>
+            <div class="game-grid" id="recommendedGrid"></div>
+        </section>
+
+        <a href="../home.html" class="back-link">
+            <button class="back-button">Back to Home</button>
+        </a>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <p>Copyright © 2024-2026 All Rights Reserved by EdCube.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+
+</body>
+</html>

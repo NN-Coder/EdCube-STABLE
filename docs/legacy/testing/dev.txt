@@ -1,0 +1,384 @@
+old dynamic animated homepage header buttons:
+
+[html]
+
+<a href="/settings" class="nav-btn">
+    <i data-lucide="settings"></i>
+    <span class="btn-text">Settings</span>
+</a>
+
+<button class="nav-btn" onclick="openBlank()">
+    <i data-lucide="external-link"></i>
+    <span class="btn-text">Cloaking</span>
+</button>
+
+<a href="/proxies" class="nav-btn">
+    <i data-lucide="globe"></i>
+    <span class="btn-text">Proxies</span>
+</a>
+
+[]
+
+---------------------------------------------------------------------------------
+
+in-header search bar:
+
+[css]
+
+.search-wrapper {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-glow-heavy);
+    padding: 8px 12px;
+    border-radius: 50px;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 45px; 
+    overflow: hidden;
+}
+
+.search-input {
+    background: none;
+    border: none;
+    color: white;
+    font-family: inherit; 
+    outline: none;
+    width: 0;
+    opacity: 0;
+    transition: all 0.5s ease;
+}
+
+.search-wrapper [data-lucide="search"] {
+    width: 200px;
+    height: 200px;
+}
+
+.search-wrapper:hover, .search-wrapper:focus-within {
+    width: clamp(150px, 25vw, 250px);
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--main-color);
+    box-shadow: var(--neon-glow);
+}
+
+.search-wrapper:hover .search-input, 
+.search-wrapper:focus-within .search-input {
+    width: 100%;
+    opacity: 1;
+    padding-left: 10px;
+}
+
+---------------------------------------------------------------------------------
+
+removed games:
+
+[JSON]
+
+{
+    "id": "among-us",
+    "title": "Among Us",
+    "image": "game_images/among-us.jpg",
+    "description": "Find the imposter in this social deduction game."
+},
+
+---------------------------------------------------------------------------------
+
+pre- img.bb source changes:
+
+[JSON]
+
+[
+    {
+        "id": "1v1-lol",
+        "title": "1v1.lol",
+        "image": "game_images/1v1-lol.jpg",
+        "description": "A competitive building and shooting game."
+    },
+    {
+        "id": "basket-random",
+        "title": "Basket Random",
+        "image": "game_images/basket-random.jpg",
+        "description": "Physics-based basketball with unpredictable controls."
+    },
+    {
+        "id": "basketball-stars",
+        "title": "Basketball Stars",
+        "image": "game_images/basketball-stars.jpg",
+        "description": "Show off your skills in this fast-paced basketball game."
+    },
+    {
+        "id": "bitlife",
+        "title": "Bitlife",
+        "image": "game_images/bitlife-thumb.jpg",
+        "description": "Live your life however you want in this simulator."
+    },
+    {
+        "id": "block-blast",
+        "title": "Block Blast",
+        "image": "game_images/block-blast.jpg",
+        "description": "A challenging block puzzle game."
+    },
+    {
+        "id": "boxing-random",
+        "title": "Boxing Random",
+        "image": "game_images/boxing-random.jpg",
+        "description": "Randomized physics boxing matches."
+    },
+    {
+        "id": "cookie-clicker",
+        "title": "Cookie Clicker",
+        "image": "game_images/cookie-clicker.jpg",
+        "description": "Bake an infinite amount of cookies."
+    },
+    {
+        "id": "crossy-road",
+        "title": "Crossy Road",
+        "image": "game_images/crossy-road.jpg",
+        "description": "Why did the chicken cross the road?"
+    },
+    {
+        "id": "cut-the-rope",
+        "title": "Cut the Rope",
+        "image": "game_images/cut-the-rope.jpg",
+        "description": "Feed candy to Om Nom by cutting ropes."
+    },
+    {
+        "id": "drift-boss",
+        "title": "Drift Boss",
+        "image": "game_images/drift-boss.jpg",
+        "description": "Master the art of drifting on tricky tracks."
+    },
+    {
+        "id": "drive-mad",
+        "title": "Drive Mad",
+        "image": "game_images/drive-mad.jpg",
+        "description": "A car game where you drive over crazy obstacles."
+    },
+    {
+        "id": "eaglercraft-1-8-8",
+        "title": "Eaglercraft 1.8.8",
+        "image": "game_images/eaglercraft-1-8-8.jpg",
+        "description": "Classic block-building survival and creativity."
+    },
+    {
+        "id": "eaglercraft-1-12-2",
+        "title": "Eaglercraft 1.12.2",
+        "image": "game_images/eaglercraft-1-12-2.jpg",
+        "description": "Updated block-building experience in your browser."
+    },
+    {
+        "id": "escape-road-2",
+        "title": "Escape Road 2",
+        "image": "game_images/escape-road-2.jpg",
+        "description": "Outrun the police in high-speed chases."
+    },
+    {
+        "id": "fireboy-and-watergirl-1",
+        "title": "Fireboy and Watergirl 1",
+        "image": "game_images/fireboy-and-watergirl-1.jpg",
+        "description": "Solve puzzles in the Forest Temple."
+    },
+    {
+        "id": "fruit-ninja",
+        "title": "Fruit Ninja",
+        "image": "game_images/fruit-ninja.jpg",
+        "description": "Slice fruit like a master ninja."
+    },
+    {
+        "id": "geometry-dash-lite",
+        "title": "Geometry Dash Lite",
+        "image": "game_images/geometry-dash-lite.jpg",
+        "description": "Jump and fly through danger in this rhythm platformer."
+    },
+    {
+        "id": "getaway-shootout",
+        "title": "Getaway Shootout",
+        "image": "game_images/getaway-shootout.jpg",
+        "description": "Race to the extraction point in this chaotic platformer."
+    },
+    {
+        "id": "gladihoppers",
+        "title": "Gladihoppers",
+        "image": "game_images/gladihoppers.jpg",
+        "description": "Funny gladiator combat with hopping physics."
+    },
+    {
+        "id": "hollow-knight",
+        "title": "Hollow Knight",
+        "image": "game_images/hollow-knight.jpg",
+        "description": "Explore a vast, ruined kingdom of insects and heroes."
+    },
+    {
+        "id": "justfall-lol",
+        "title": "Justfall.lol",
+        "image": "game_images/justfall-lol.jpg",
+        "description": "Be the last penguin standing in this hex-a-gone style game."
+    },
+    {
+        "id": "little-alchemy",
+        "title": "Little Alchemy",
+        "image": "game_images/little-alchemy.jpg",
+        "description": "Combine elements to create a whole new world."
+    },
+    {
+        "id": "madalin-stunt-cars",
+        "title": "Madalin Stunt Cars",
+        "image": "game_images/madalin-stunt-cars.jpg",
+        "description": "Perform incredible stunts with high-performance cars."
+    },
+    {
+        "id": "monkey-mart",
+        "title": "Monkey Mart",
+        "image": "game_images/monkey-mart.jpg",
+        "description": "Manage your own supermarket as a monkey."
+    },
+    {
+        "id": "motox3m",
+        "title": "MotoX3M",
+        "image": "game_images/motox3m.jpg",
+        "description": "Stunt bike racing through dangerous levels."
+    },
+    {
+        "id": "no-way-back",
+        "title": "No Way Back",
+        "image": "game_images/no-way-back.jpg",
+        "description": "A challenging platformer with no room for error."
+    },
+    {
+        "id": "nugget-royale",
+        "title": "Nugget Royale",
+        "image": "game_images/nugget-royale.jpg",
+        "description": "Avoid the grinder and be the last chicken standing."
+    },
+    {
+        "id": "ovo",
+        "title": "OvO",
+        "image": "game_images/ovo.jpg",
+        "description": "A fast-paced platformer focusing on momentum and parkour."
+    },
+    {
+        "id": "pako-highway",
+        "title": "Pako Highway",
+        "image": "game_images/pako-highway.jpg",
+        "description": "Drive through endless traffic and near-miss your way to points."
+    },
+    {
+        "id": "paper-io",
+        "title": "Paper.io",
+        "image": "game_images/paper-io.jpg",
+        "description": "Capture territory by drawing loops."
+    },
+    {
+        "id": "ping-pong-chaos",
+        "title": "Ping Pong Chaos",
+        "image": "game_images/ping-pong-chaos.jpg",
+        "description": "Wacky ping pong matches with unpredictable physics."
+    },
+    {
+        "id": "polytrack",
+        "title": "Polytrack",
+        "image": "game_images/polytrack.jpg",
+        "description": "Low-poly racing and track building."
+    },
+    {
+        "id": "ragdoll-archers",
+        "title": "Ragdoll Archers",
+        "image": "game_images/ragdoll-archers.jpg",
+        "description": "Use your archery skills to defeat ragdoll enemies."
+    },
+    {
+        "id": "ragdoll-hit",
+        "title": "Ragdoll Hit",
+        "image": "game_images/ragdoll-hit.jpg",
+        "description": "Fight and bash your way through ragdoll opponents."
+    },
+    {
+        "id": "retro-bowl",
+        "title": "Retro Bowl",
+        "image": "game_images/retro-bowl.jpg",
+        "description": "The perfect game for the armchair quarterback."
+    },
+    {
+        "id": "rooftop-snipers",
+        "title": "Rooftop Snipers",
+        "image": "game_images/rooftop-snipers.jpg",
+        "description": "Shoot your opponent off the roof to win."
+    },
+    {
+        "id": "slope",
+        "title": "Slope",
+        "image": "game_images/slope.jpg",
+        "description": "Avoid obstacles and survive as long as possible on the slope."
+    },
+    {
+        "id": "slope-3",
+        "title": "Slope 3",
+        "image": "game_images/slope-3.jpg",
+        "description": "The latest edition of the fast-paced downhill survival game."
+    },
+    {
+        "id": "smash-karts",
+        "title": "Smash Karts",
+        "image": "game_images/smash-karts.jpg",
+        "description": "Battle other players in this 3D kart combat game."
+    },
+    {
+        "id": "snow-rider-3d",
+        "title": "Snow Rider 3D",
+        "image": "game_images/snow-rider-3d.jpg",
+        "description": "Sled through a snowy mountain while avoiding obstacles."
+    },
+    {
+        "id": "soccer-random",
+        "title": "Soccer Random",
+        "image": "game_images/soccer-random.jpg",
+        "description": "One-button soccer with funny physics."
+    },
+    {
+        "id": "stack",
+        "title": "Stack",
+        "image": "game_images/stack.jpg",
+        "description": "Stack up blocks as high as you can."
+    },
+    {
+        "id": "stickman-climb",
+        "title": "Stickman Climb",
+        "image": "game_images/stickman-climb.jpg",
+        "description": "Use your hammer to reach the finish line."
+    },
+    {
+        "id": "subway-surfers",
+        "title": "Subway Surfers",
+        "image": "game_images/subway-surfers.jpg",
+        "description": "Dodge trains and escape the inspector."
+    },
+    {
+        "id": "tag",
+        "title": "Tag",
+        "image": "game_images/tag.jpg",
+        "description": "A classic game of tag with your friends."
+    },
+    {
+        "id": "tanuki-sunset",
+        "title": "Tanuki Sunset",
+        "image": "game_images/tanuki-sunset.jpg",
+        "description": "Longboard downhill as a tanuki."
+    },
+    {
+        "id": "temple-of-boom",
+        "title": "Temple of Boom",
+        "image": "game_images/temple-of-boom.jpg",
+        "description": "Survive waves of enemies in this arena platformer."
+    },
+    {
+        "id": "tiny-fishing",
+        "title": "Tiny Fishing",
+        "image": "game_images/tiny-fishing.jpg",
+        "description": "Cast your line and catch rare fish to upgrade your gear."
+    },
+    {
+        "id": "volley-random",
+        "title": "Volley Random",
+        "image": "game_images/volley-random.jpg",
+        "description": "Enjoy volleyball with simple, randomized physics."
+    }
+]
