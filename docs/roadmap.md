@@ -66,6 +66,7 @@ This document outlines the strategic progression for EdCube. The roadmap is prio
     * Automated statistical analysis (Median, Average, Typicals) via Sheets/Excel integration.
     * [INPROGRESS] In-depth SEO strategy and Google Search Console integration.
     * [NOTPRIORITY] Set up professional work email with Cloudflare Email Routing to recieve to personal mail and SMTP to send back (Eventually secure paid third-party email host). 
+    * [DONE] Use Cloudflare Zaraz for Google Analytics
 
 10.  **Site Community Features**
     * [BACKLOG] Deploy the Chat system with Supabase Presence and Broadcast (To be removed/archived due to maintenance overhead).
@@ -101,10 +102,11 @@ This document outlines the strategic progression for EdCube. The roadmap is prio
     * Implement automatic feature shutdown when Cloudflare/Supabase limits are approached.
     * Implement A/B testing framework for UI variations and retention metrics.
     * Perform horizontal vs vertical scaling tests.
+    * Add a proper README.md file
 
 17. **Exploration & Impact**
     * Final audits, polish, and major version release before maintenance era
-    * Monetization with Google Ads & Google Floodlight (HubSpot?)
+    * Monetization with Google Ads, Google Floodlight, & Cloudflare Zaraz (HubSpot?)
     * Check out different possible infrastructure (Firebase, Azure, Mongo DB, Angular, Vue, Svelte)
     * Learn about architecture of everything in EdCube (meant for the dev)
     * Explore new ways to expand EdCube (nonprofit company?)
