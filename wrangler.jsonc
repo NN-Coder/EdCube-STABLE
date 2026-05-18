@@ -37,5 +37,13 @@
       "binding": "GAME_ASSETS_BUCKET",
       "bucket_name": "assets"
     }
+  ],
+  "hyperdrive": [
+    {
+      // Hyperdrive connection pooler for Supabase Postgres (edcube-db).
+      // Manages a warm connection pool at the Cloudflare edge — no TCP overhead per request.
+      "binding": "HYPERDRIVE",
+      "id": "b674fc1f3a4f4969968d690bf2aa9a77"
+    }
   ]
 }

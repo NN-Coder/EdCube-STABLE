@@ -118,6 +118,7 @@ This document outlines the strategic progression for EdCube. The roadmap is prio
 ## 🐞 Known Issues & UI Polish
 * **Header Hover Bug:** Resolve issue where the Home icon stays in hover state when on that page but others do not.
 * **DMCA Autofill:** Fix logic where DMCA form fails to pull data from the active game page.
+* **Homepage Gradient:** The homepage background gradient has cutting lines every interval of the screen height.
 * **Consistency Audit:** Standardize titles and metadata across all library entries.
 * **Redundancy Audit:** Remove duplicate CSS/JS assets and unused library hooks.
 
