@@ -17,9 +17,14 @@ Scale **EdCube** into a high-performance, unblocked gaming platform while mainta
 
 ## 🛠️ MCP & Skill Utilization
 The agent is authorized to use the following MCP servers and skills as appropriate:
-*   **Filesystem MCP:** For local repo management.
-*   **GitHub MCP:** For repo management and PR automation.
-*   **Specialized Skills:**
+*   **MCP Servers:**
+    *   **GitHub MCP:** For repo management and PR automation.
+    *   **Chrome Dev Tools MCP:** For browser testing and debugging.
+    *   **Cloudflare Bindings & Observability MCP:** For managing Cloudflare Workers and observing performance.
+    *   **Supabase MCP:** For database management and operations.
+    *   **Stitch MCP:** For high-end UI/UX design and schemas.
+
+*   **Agent Skills:**
     *   `supabase-rls-expert`: Auditing and writing secure database policies.
     *   `cloudflare-edge-architect`: Managing Workers, R2, and Hyperdrive connection pooling.
     *   `ai-integration-engineer`: Implementing Gemini Pro and Cloudflare Workers AI.
