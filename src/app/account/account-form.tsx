@@ -77,7 +77,7 @@ export function AccountForm({ user, profile }: AccountFormProps) {
         body: formData,
       });
 
-      const data = await res.json();
+      const data = await res.json() as { error?: string; avatarUrl?: string };
 
       if (!res.ok) {
         setAvatarStatus({ message: data.error || "Upload failed.", type: "error" });
