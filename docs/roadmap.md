@@ -35,6 +35,7 @@ This document outlines the strategic progression for EdCube. The roadmap is prio
     * Save all game data to accounts so it is shared across any domain.
     * [BACKLOG] Implement Password Reset (Forgot Password), Password Change, and Email Change workflows (Currently removed to simplify).
     * [BACKLOG] Use Cloudflare Turnstile to verify humanity and prevent bots (Currently removed to simplify).
+    * Use Cloudflare Rate Limiting on API routes to protect quota.
 
 5.  **Legal**
     * [INPROGRESS] Establish formal DMCA Policy landing page and site-wide footer with with email/webhook triggers for DMCA notices for automated communication.

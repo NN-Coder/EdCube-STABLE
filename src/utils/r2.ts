@@ -29,10 +29,11 @@ export const getGameUrl = (urlPath: string): string => {
 /**
  * Returns the internal API route URL for a game's thumbnail image.
  *
- * @example getGameThumbnail("basket-random") → "/api/r2/game_images/basket-random.jpg"
+ * @example getGameThumbnail("basket-random") → "/api/r2/game_images/basket-random.png"
  */
 export const getGameThumbnail = (urlPath: string): string => {
-  return `/api/r2/game_images/${urlPath}.jpg`;
+  const sanitizedPath = urlPath.replace(/[^a-zA-Z0-9-]/g, '-').replace(/-+/g, '-').toLowerCase();
+  return `/api/r2/game_images/${sanitizedPath}.png`;
 };
 
 /**
