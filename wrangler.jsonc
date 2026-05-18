@@ -42,8 +42,11 @@
     {
       // Hyperdrive connection pooler for Supabase Postgres (edcube-db).
       // Manages a warm connection pool at the Cloudflare edge — no TCP overhead per request.
+      // localConnectionString: used ONLY by wrangler for local emulation (opennextjs deploy calls getPlatformProxy).
+      // In production, Cloudflare routes via the real Hyperdrive pool (id above).
       "binding": "HYPERDRIVE",
-      "id": "b674fc1f3a4f4969968d690bf2aa9a77"
+      "id": "b674fc1f3a4f4969968d690bf2aa9a77",
+      "localConnectionString": "postgres://postgres:***REMOVED***@db.hftvwwtqznujktobbxol.supabase.co:5432/postgres"
     }
   ]
 }
