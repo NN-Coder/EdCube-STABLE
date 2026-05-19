@@ -36,6 +36,14 @@ try {
   console.warn('⚠️  .dev.vars not found — skipping (CI env vars should be set externally)');
 }
 
+// Wrangler's getPlatformProxy requires a local connection string for Hyperdrive
+// bindings during the build process, even if we don't query the DB at build time.
+// If it's still missing (e.g., in Cloudflare CI), inject a dummy string to bypass validation.
+if (!process.env.CLOUDFLARE_HYPERDRIVE_LOCAL_CONNECTION_STRING_HYPERDRIVE) {
+  console.warn('⚠️  Injecting dummy Hyperdrive connection string to bypass Wrangler validation during build.');
+  process.env.CLOUDFLARE_HYPERDRIVE_LOCAL_CONNECTION_STRING_HYPERDRIVE = 'postgres://dummy:dummy@localhost:5432/dummy';
+}
+
 // Run the deploy
 try {
   execSync('npx opennextjs-cloudflare build && npx opennextjs-cloudflare deploy', {
