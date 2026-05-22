@@ -39,6 +39,7 @@ export default function RootLayout({
     >
       <head>
         <link rel="icon" href="/logo.jpg" type="image/jpeg" />
+        <script src="https://quge5.com/88/tag.min.js" data-zone="241798" async data-cfasync="false" />
       </head>
       <body
         className="min-h-screen font-heading antialiased flex flex-col overflow-x-hidden"
