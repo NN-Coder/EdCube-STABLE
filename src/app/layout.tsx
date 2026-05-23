@@ -39,7 +39,9 @@ export default function RootLayout({
     >
       <head>
         <link rel="icon" href="/logo.jpg" type="image/jpeg" />
-        <script src="https://quge5.com/88/tag.min.js" data-zone="241798" async data-cfasync="false" />
+        <script src="https://5gvci.com/act/files/tag.min.js?z=11048548" data-cfasync="false" async />
+        <script dangerouslySetInnerHTML={{ __html: `(function(s){s.dataset.zone='11048566',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))` }} />
+        <script dangerouslySetInnerHTML={{ __html: `(function(s){s.dataset.zone='11048579',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))` }} />
       </head>
       <body
         className="min-h-screen font-heading antialiased flex flex-col overflow-x-hidden"
