@@ -13,6 +13,7 @@
     "NEXT_PUBLIC_SUPABASE_URL": "https://hftvwwtqznujktobbxol.supabase.co",
     "NEXT_PUBLIC_SUPABASE_ANON_KEY": "sb_publishable_nvAJbIyh32mLYlMmCAUeaQ_IERYW9SX",
     "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY": "sb_publishable_nvAJbIyh32mLYlMmCAUeaQ_IERYW9SX",
+    "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY": "sb_publishable_nvAJbIyh32mLYlMmCAUeaQ_IERYW9SX",
     "NEXT_PUBLIC_SITE_URL": "https://edcube.edcube.workers.dev"
   },
   "assets": {
