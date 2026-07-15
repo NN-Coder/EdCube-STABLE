@@ -41,7 +41,7 @@ NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY=your_supabase_publishable_key
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
 POSTGRES_CONNECTION_STRING=your_postgres_connection_string
-CLOUDFLARE_HYPERDRIVE_LOCAL_CONNECTION_STRING_HYPERDRIVE=******localhost:5432/dummy
+CLOUDFLARE_HYPERDRIVE_LOCAL_CONNECTION_STRING_HYPERDRIVE=your_hyperdrive_local_connection_string
 ```
 
 > `NEXT_PUBLIC_SUPABASE_ANON_KEY` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` are also supported as fallback key names.
